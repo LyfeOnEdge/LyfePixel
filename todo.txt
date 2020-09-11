@@ -1,0 +1,37 @@
+todo.txt
+x y cords of cursor on bottom of canvas
+rgba indicator for current pixel
+custom cursors - https://code.sololearn.com/cRybBVw45cC4/#py
+add gif export
+
+High Priority:
+
+bind escape to exit canvas window with dialog
+
+load_folder_as_frames(self): print("Load folder as frames not implemented")
+load_folder_as_layers(self): print("Load folder as layers not implemented")
+export_zip(self): print("Export zip not implemented")
+export_project(self): print("Export project not implemented")
+
+Layer operations:
+- adjust alpha
+- to grayscale
+- to black and white
+- crop
+- adjust layer size
+
+Tools:
+- layer gradient
+- line gradient
+- fill gradient
+- option to turn of rectangle fill
+- animation for drag tools
+
+Misc:
+- Color preview on pallet window with checker background
+- Toggle Grid
+
+tooltips everywhere
+
+todone:
+moar file types

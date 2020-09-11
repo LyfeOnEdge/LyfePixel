@@ -1,0 +1,9 @@
+- Select a paint color by left-clicking one in the Pallet window.
+
+- Right-clicking acts as an eraser, setting a pixel to be transparent.
+
+- Double-left-clicking in the pallet lets you choose a new color to replace it.
+
+- Middle-clicking on a canvas acts as an eyedropper.
+
+- The slider in the pallet window adjusts tool transparency.
