@@ -143,17 +143,17 @@ class PalletWindow(ttk.Frame):
 
 	def change_color(self, event):
 		id = self.canvas.get_cell_id(event.x, event.y)
-		if id:
-			color = (int(v) for v in hex_to_rgb(colorchooser.askcolor()))
-			if color:
-				r,g,b = color
-				color = (r,g,b, 255)
-				ToolController.set_color(color)
-				self.alpha = color[3]
-				self.alpha_scale.set(self.alpha)
-				self.pallet.load_image(ToolController.draw(self.pallet, id))
-				self.pallet.selection = [id]
-				self.update()
+		if not id: return
+		color = colorchooser.askcolor()[0]
+		if not color: return #If no color was selected
+		r,g,b = color
+		color = (r,g,b, 255)
+		ToolController.set_color(color)
+		self.alpha = color[3]
+		self.alpha_scale.set(self.alpha)
+		self.pallet.load_image(ToolController.draw(self.pallet, id))
+		self.pallet.selection = [id]
+		self.update()
 
 	def set_color(self, color):
 		id = self.pallet.selection[0]

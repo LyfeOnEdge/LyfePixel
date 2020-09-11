@@ -37,6 +37,7 @@ merge_down_symbol_bytes = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\
 selection_options_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x14\x00\x00\x00\x14\x08\x06\x00\x00\x00\x8d\x89\x1d\r\x00\x00\x00aIDATx\x9c\xed\x94K\n\xc0 \x0cD\x9f\xa5\xf7\xbf\xf2t\xd3H\x08\xfd\xa8\xd1\x9d\x0f\x04cd\x98\x0c"\x80\xeee\xa4\xea\x83\xc9\x94\x89Z\x82\x05\x0eMY\xbf\xb7\x1a\xd9\x19\xe6\xd9\x19\xe6Y\xe2\xb0\x97\xafi4\xea\xf0IT~\xd3\x9b\xe1\xeb\x9f8\xea\xd0\x9e\x9b\x17.\xbeAl4\xd4\xf1L\x00\xe7\xa0\xc3\xe8\xb4r\x01\xe1\r#\xfeK\xaa+`\x00\x00\x00\x00IEND\xaeB`\x82'
 up_carret_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x00QIDATx\x9c\xed\x92\xc1\x0e\x00 \x08B\xd5\xff\xffg;\xb55\x02\xe6\xadK\x1c\xe5\x81[\x16\xf1\xf5^i\xbc\x9e\xb05\x0c\xab\x19-\xa0\xa0\xf2\xb0\xc0\x85)S\xca\x98\x96\x14\x0e@\x19\xfa\xa1{\x03.L\xb7\x9eRW`[\xc7gt\x7f\xe3\xf2\xb0\xc0\x85)\xb3\x00\xc8\xb0\r\x10{\x8cD\xc6\x00\x00\x00\x00IEND\xaeB`\x82'
 down_carret_bytes = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x00TIDATx\x9c\xed\x91\xb1\x12\x00\x10\x0cCS\xff\xff\xcf5qJBM\x16\x99J\x9awU\xc0\xd7{\x19\x00\x9f\xce\x19\xf5LQF&\xcc\x00'\xc8\xe21\x80\x82Pp\x81~\xb7\x8bz\x94Y\xa2I\xc9\xda\x04\xe1\xe2&<\x03\xb2\x90\xd0\xc3\x96\xb8\x83,\x9e\xfa\x05\x06\xa1\xe0\nPm\x0b\x14\xaa\x93\x9f.\x00\x00\x00\x00IEND\xaeB`\x82"
+layers_symbol_bytes = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x14\x00\x00\x00\x14\x08\x06\x00\x00\x00\x8d\x89\x1d\r\x00\x00\x00\x88IDATx\x9c\xdd\x94Q\x0e\xc0 \x08C\xd5\xfb\xdf\x99\xfd\x0c3\xb1\xd4\xea\xf65\x13\x13E\xf6V\x1a\xb4\x94|\xd8=\xb7F%05w\x99\xb4RE\xc1\xf1p\xa7D\x08~\x06\xb7\xfdB`\xdf\x9c\xc2&V\xfb\x126,^\x80\x87\x92[8\x90Z\x03\xc0\xba\x18/\xd9B\x92\x02\x86\xfe\xd7\x18\x000\xd6\xe4\x16\xf6\xd4\xc3\x0c\x9c\xc2\xd0G\n8\x83W\x0f\xc0?\x110U\xfa\x7f\x0f'Q\xac\xdf\x14\x0f\xa7\xb5\xd2\xc0\xab\xc76S+\x81\xb3\xfb\xde\xe3\x17\xc0\xce,\x11\xce3\xde\x16\x00\x00\x00\x00IEND\xaeB`\x82"
 
 WIDTH = 1080
 HEIGHT = 720
@@ -81,6 +82,8 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		self.rotate_right_image = load_tk_image_from_bytes_array(rotate_right_bytes)
 		self.to_grayscale_image = load_tk_image_from_bytes_array(to_grayscale_bytes)
 		self.selection_options_image = load_tk_image_from_bytes_array(selection_options_bytes)
+		self.layers_symbol_image = load_tk_image_from_bytes_array(layers_symbol_bytes)
+
 		self.drawtips_references = []
 		self.project = PixelProject(self.width, self.height)
 
@@ -143,21 +146,56 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		self.tool_bar = ToolBar(tool_buttons, self.right_side_frame)
 		self.tool_bar.pack(side = "top", fill = "x")
 
+
 		# create a popup menu
-		menu = Menu(self, tearoff=0)
-		menu.add_command(label="Flood Fill Selection", command=self.fill_selection)
-		menu.add_command(label="Flip Selection Vertical", command=self.flip_selection_vertical)
-		menu.add_command(label="Flip Selection Horizontal", command=self.flip_selection_horizontal)
-		menu.add_command(label="Rotate Selection Right", command=self.rotate_selection_right)
-		menu.add_command(label="Rotate Selection Left", command=self.rotate_seletion_left)
+		layer_menu = Menu(self, tearoff = 0)
+
+		
+		layer_menu.add_command(label = "Rename Current Layer", command = self.rename_selected_layer)
+		layer_menu.add_command(label = "Export Current Layer", command = self.save)
+		layer_menu.add_command(label = "Delete Current Layer", command = self.delete_selected_layer)
+		layer_menu.add_command(label = "Copy Current Layer", command = self.copy_selected_layer)
+		layer_menu.add_command(label = "Promote Current Layer", command = self.promote_selected_layer)
+		layer_menu.add_command(label = "Demote Current Layer", command = self.demote_selected_layer)
+		layer_menu.add_command(label = "Merge Layer Down", command = self.merge_selected_layer_down)
+		layer_menu.add_separator()
+
+
+		layer_menu.add_command(label = "Rename Current Frame", command = self.rename_selected_frame)
+		layer_menu.add_command(label = "Export Current Frame", command = self.save_selected_frame)
+		layer_menu.add_command(label = "Delete Current Frame", command = self.delete_selected_frame)
+		layer_menu.add_command(label = "Copy Current Frame", command = self.copy_selected_frame)
+		layer_menu.add_command(label = "Promote Current Frame", command = self.promote_selected_frame)
+		layer_menu.add_command(label = "Demote Current Frame", command = self.demote_selected_frame)
+		layer_menu.add_command(label = "New Layer in Current Frame", command = self.new_layer_in_selected_frame)
+		layer_menu.add_command(label = "New Layer from Image in Current Frame", command = self.new_layer_from_image_in_selected_frame)
+		
+
+		
+
+
+		
+		
+
+		self.layer_options_menu_button = Label(self.tool_bar, image = self.layers_symbol_image, font = "bold")
+		self.layer_options_menu_button.pack(side = "left")
+		bind_popup("<Button-1>", self.layer_options_menu_button, layer_menu)
 
 		self.separator = Frame(self.tool_bar, background = "black")
 		self.separator.pack(side = "left", fill = "y", expand = False, pady = 2, padx = 4)
 
+		# create a popup menu
+		selection_menu = Menu(self, tearoff=0)
+		selection_menu.add_command(label = "Flood Fill Selection", command = self.fill_selection)
+		selection_menu.add_command(label = "Flip Selection Vertical", command = self.flip_selection_vertical)
+		selection_menu.add_command(label = "Flip Selection Horizontal", command = self.flip_selection_horizontal)
+		selection_menu.add_command(label = "Rotate Selection Right", command = self.rotate_selection_right)
+		selection_menu.add_command(label = "Rotate Selection Left", command = self.rotate_seletion_left)
+		selection_menu.add_command(label = "Export Selection", command = self.export_selection)
+		selection_menu.add_command(label = "New Layer from Selection", command = self.new_layer_image_from_selection)
 		self.selections_options_menu_button = Label(self.tool_bar, image = self.selection_options_image, font = "bold")
 		self.selections_options_menu_button.pack(side = "left")
-
-		bind_popup("<Button-1>", self.selections_options_menu_button, menu)
+		bind_popup("<Button-1>", self.selections_options_menu_button, selection_menu)
 
 		self.canvas_frame = ttk.LabelFrame(self.right_side_frame, text = "")
 		self.canvas_frame.pack(fill = "both", expand = True, anchor = "n", padx = 3)
@@ -296,9 +334,6 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		self.project.select_frame(0)
 		self.project.selected_frame.select_layer(0)
 		self.refresh()
-	def new_layer(self, event = None):
-		self.project.selected_frame.new_layer()
-		self.refresh()
 	def flip_vertical(self):
 		self.canvas.flip_vertical()
 		self.refresh()
@@ -343,8 +378,84 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		if layer.selection:
 			ToolController.rotate_selection_left(layer, ToolController.start_id, ToolController.end_id)
 			self.refresh()
+	def export_selection(self):
+		layer = self.project.selected_frame.selected_layer
+		if layer.selection:
+			image = ToolController.export_selection(layer, ToolController.start_id, ToolController.end_id)
+			SaveMenu(self.controller, image)
+			self.refresh()
 
 	def preview(self): ImageViewer(self.controller, self.project.selected_frame.selected_layer.export_image())
+	def new_layer_in_selected_frame(self): self.new_layer()
+	def new_layer_from_image_in_selected_frame(self):
+		path = filedialog.askopenfilename()
+		if path:
+			image = Image.open(path)
+			layer = self.project.selected_frame.new_layer_from_image(image)
+			self.refresh()
+	def ask_delete_layer(self, frame, layer):
+		if len(frame.layers) == 1:
+			messagebox.showwarning("Warning", "Cannot delete last layer.")
+			return
+		return messagebox.askyesno("Delete Layer?", f"Are you sure you wish to delete this layer?\n{layer.id}")
+	def delete_selected_layer(self):
+		frame = self.project.selected_frame
+		layer = self.project.selected_frame.selected_layer
+		if self.ask_delete_layer(frame, layer):
+			frame.del_layer(layer)
+			frame.selected_layer = frame.layers[0]
+		self.refresh()
+	def copy_selected_layer(self):
+		self.project.selected_frame.copy_layer(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def promote_selected_layer(self):
+		self.project.selected_frame.promote_layer(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def demote_selected_layer(self):
+		self.project.selected_frame.demote_layer(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def merge_selected_layer_down(self):
+		self.project.selected_frame.merge_layer_down(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def rename_selected_frame(self):
+		frame = self.project.selected_frame
+		name = simpledialog.askstring("Rename Frame", f"What would you like to rename Frame: {frame.id} to?")
+		if name:
+			frame.set_id(name)
+			self.refresh()
+	def rename_selected_layer(self):
+		layer = self.project.selected_frame.selected_layer
+		name = simpledialog.askstring("Rename Layer", f"What would you like to rename Layer: {layer.id} to?")
+		if name:
+			layer.set_id(name)
+			self.refresh()
+	def save_selected_frame(self):
+		image = self.project.selected_frame.export_composite_image()
+		SaveMenu(self.controller, image)
+	def ask_delete_frame(self):
+		if len(self.project.frames) == 1:
+			return messagebox.showwarning("Warning", "Cannot delete last frame.")
+		return messagebox.askyesno("Delete", "Are you sure you wish to delete this frame?\nThis cannot be undone.")
+	def delete_selected_frame(self):
+		if self.ask_delete_frame():
+			self.project.del_frame(self.project.selected_frame)
+			self.project.selected_frame = self.project.frames[0]
+			self.refresh()
+	def copy_selected_frame(self):
+		self.project.copy_frame(self.project.selected_frame)
+		self.refresh()
+	def promote_selected_frame(self):
+		self.project.promote_frame(self.project.selected_frame)
+		self.refresh()
+	def demote_selected_frame(self):
+		self.project.demote_frame(self.project.selected_frame)
+		self.refresh()
+
+	def new_layer_image_from_selection(self):
+		if not self.project.selected_frame.selected_layer.selection: return
+		image = ToolController.new_layer_image_from_selection(self.project.selected_frame.selected_layer, ToolController.start_id, ToolController.end_id)
+		self.project.selected_frame.new_layer_from_image(image)
+		self.refresh()
 
 
 class FrameFrame(ttk.LabelFrame):

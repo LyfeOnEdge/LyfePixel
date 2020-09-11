@@ -35,3 +35,8 @@ tooltips everywhere
 
 todone:
 moar file types
+
+
+
+cut selection to new layer
+selection mover tool

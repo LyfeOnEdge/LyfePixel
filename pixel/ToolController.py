@@ -361,4 +361,22 @@ class Controller:
 		image.paste(crop, (min(x0, x1), min(y0, y1)))
 		layer.load_image(image)
 
+	def crop_to_selection(self, layer, start_id, end_id):
+		image = layer.export_image()
+		x0, y0 = (int(v) for v in start_id.split("x"))
+		x1, y1 = (int(v) for v in end_id.split("x"))
+		crop = image.crop((min(x0, x1), min(y0, y1), max(x0, x1) + 1, max(y0, y1) + 1))
+		return crop
+
+	def export_selection(self, layer, start_id, end_id):
+		return self.crop_to_selection(layer, start_id, end_id)
+
+	def new_layer_image_from_selection(self, layer, start_id, end_id):
+		x0, y0 = (int(v) for v in start_id.split("x"))
+		x1, y1 = (int(v) for v in end_id.split("x"))
+		image = Image.new("RGBA",(layer.width, layer.height), (0,0,0,0)) #New background for layer
+		crop = self.crop_to_selection(layer, start_id, end_id)
+		image.paste(crop, (min(x0, x1), min(y0, y1)))
+		return image
+
 ToolController = Controller()
