@@ -223,7 +223,6 @@ class ToolBox(Frame):
 		_canvasheight = (_y + 1) * (y_spacing)
 		if _canvasheight < self.winfo_height():
 			_canvasheight = self.winfo_height()
-		print("Made it")
 		self.canvas_frame.config(height = _canvasheight,width= _framewidth)
 		self.canvas.config(scrollregion=(0,0,_framewidth, _canvasheight))
 		

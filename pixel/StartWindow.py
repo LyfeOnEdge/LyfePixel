@@ -24,6 +24,9 @@ class StartWindow(BaseWindow):
 		load_button = Button(self, text = "Load Image", command = self.load_canvas_window)
 		load_button.pack(side = "bottom", fill = "x", padx = 3, pady = 3)	
 
+		load_gif = Button(self, text = "Load Gif", command = self.load_gif)
+		load_gif.pack(side = "bottom", fill = "x", padx = 3, pady = 3)	
+
 	def close(self, *args): self.destroy()
 
 	def spawn_canvas_window(self):
@@ -38,4 +41,13 @@ class StartWindow(BaseWindow):
 			w = self.width_entry.get()
 			h = self.height_entry.get()
 			self.controller.load_canvas(source, w, h)
+			self.close()
+
+	def load_gif(self):
+		source = filedialog.askopenfilename(filetypes = [("GIF files", ".gif"), ("All files", ".*")])
+		if source:
+			w = self.width_entry.get()
+			h = self.height_entry.get()
+			canvas = self.controller.spawn_canvas(w, h)
+			canvas.load_gif_fresh(source)
 			self.close()

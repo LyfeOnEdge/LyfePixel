@@ -54,9 +54,4 @@ class ImageViewer(BaseWindow):
 		self.geometry("%sx%s" % (x_change, y_change))
 
 	def on_release(self, event):
-		sizegrip["cursor"] = "arrow"
-		
-		
-
-
-
+		self.grip["cursor"] = "arrow"

@@ -234,8 +234,8 @@ class SaveMenu(BaseWindow):
 				self.error(f"Error resizing image - {e}")
 				return
 			
-		def handle_RGB(image):
-			print(f"ALREADY RGB")
+		def handle_RGBA(image):
+			print(f"ALREADY RGBA")
 			return image
 
 		sizing_options = {

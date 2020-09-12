@@ -16,7 +16,6 @@ from .LyfeCanvas import LyfeCanvas
 from .ToolBox import ToolBox
 from .SaveMenu import SaveMenu
 
-
 magnifying_glass_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x01\x85iCCPICC Profile\x00\x00x\x9c}\x91=H\xc3P\x14\x85\x8f\xa9\xd2"\x15\x07;hq\xc8P\x9d,\x88\x8a8J+\x16\xc1Bi+\xb4\xea`\xf2\xd2?h\xd2\x90\xa4\xb88\n\xae\x05\x07\x7f\x16\xab\x0e.\xce\xba:\xb8\n\x82\xe0\x0f\x88\x93\xa3\x93\xa2\x8b\x94x_Rh\x11\xe3\x85G>\xce\xbb\xe7\xe4\xbd\xfb\x00\xa1Ye\xaa\xd9;\t\xa8\x9ae\xa4\x1311\x97_\x15\xfd\xaf\x08`\x04@\x0f\xc2\x123\xf5df1\x0b\xcf\xfa\xba\xa7>\xaa\xbb(\xcf\xf2\xee\xfb\xb3\x06\x94\x82\xc9\xe8G"\xf1<\xd3\r\x8bx\x83xv\xd3\xd29\xef\x13\x87XYR\x88\xcf\x89\'\x0c: \xf1#\xd7e\x97\xdf8\x97\x1c\x16xf\xc8\xc8\xa6\xe3\xc4!b\xb1\xd4\xc5r\x17\xb3\xb2\xa1\x12\xcf\x10G\x14U\xa3|!\xe7\xb2\xc2y\x8b\xb3Z\xad\xb3\xf69\xf9\r\x83\x05m%\xc3uZ\xa3H`\tI\xa4 BF\x1d\x15Ta!J_\x8d\x14\x13i\xda\x8fy\xf8\xc3\x8e?E.\x99\\\x150r,\xa0\x06\x15\x92\xe3\x07\x7f\x83\xdf\xb35\x8b\xd3SnR0\x06\xf4\xbd\xd8\xf6\xc7\x18\xe0\xdf\x05Z\r\xdb\xfe>\xb6\xed\xd6\t\xe0{\x06\xae\xb4\x8e\xbf\xd6\x04\xe6>Iot\xb4\xc8\x110\xb8\r\\\\w4y\x0f\xb8\xdc\x01\x86\x9ft\xc9\x90\x1c\xc9GK(\x16\x81\xf73z\xa6<0t\x0b\xf4\xaf\xb9sk\xef\xe3\xf4\x01\xc8\xd2\xac\x96o\x80\x83C`\xbcD\xd9\xeb\x1e\xf7\x0et\xcf\xed\xdf\x9e\xf6\xfc~\x00 Tr\x86  \xb6\xb6\x00\x00\x00UIDATx\x9c\xdd\x93K\x12\x00 \x08B\xa5\xfb\xdf\xb9\x96\xfd\x84\xd4e,C\xec\xcdP\xb0\xa9n\\`F\x0b\x84\xa5\x8f\xc3\xf4n\x92~S\xe6\xe3\xfcZP\xd2g\x0bXU\xb2bD\x86Hf#\x90U)\xa2h\xd0#\xc4J\xf0\x12}\xa1\x19t\x97$[\xa3\xfc\x0b\xa5%\x03\t\x0b\x0c\x1bW\xf4ba\x00\x00\x00\x00IEND\xaeB`\x82'
 floppy_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x00YIDATx\x9c\xbd\x93A\n\x00 \x08\x04w\xa3\xff\x7f\xb9nb\x1bDj$t\x08\xb6q\x10#\x80\x81X\xd1_Z\xf01\xb4\xa1\x07P\x82tG3\x06\xc9\x18,\x90\x0c`\x81\xf4C\xe8j\xb8Y\x03+5\xd0A\xfe7\xb8]*3}n\xb0u\x90\xda\x0c\xcb\x06e\x00\x11\xff\x8do\r&2<\t)\xe6\x84\xac\xa0\x00\x00\x00\x00IEND\xaeB`\x82'
 export_to_bytes_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x00TIDATx\x9c\xc5R\xcb\x0e\x00 \x08\xa2\xd6\xff\xff\xb2\x9d<\xf8\xc0Z[\x93#"S\x11\xe8\xc6\x00 \x84\xcf\x90i\x03\x99\x8aXm\x16\xe2+\xf4\x1b\xac\x87\x1es\x07f \x88Ih\xa3\xe1\xd9\n>\xde\xcc\xb0\x9c\xc0\x9b\xb0\xbf\xf8\x9b\x82\x8e\xcd\xbe\x158\x14\xaf\x8e\xd8\x8f\r^q\x0f\x17I\xca\t\xc4\x00\x00\x00\x00IEND\xaeB`\x82'
@@ -101,26 +100,31 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		self.gif_tool_bar = ToolBar(tool_buttons, self.left_side_frame)
 		self.gif_tool_bar.pack(side = "top", fill = "x", pady = (0,2))
 
-		self.gif_file_options = Label(self.gif_tool_bar, image = self.floppy_image, font = "bold")
-		self.gif_file_options.pack(side = "left")
-
-		# create a popup menu
-		gif_menu = Menu(self, tearoff=0)
-		gif_menu.add_command(label="Export Gif", command=self.export_gif)
+		save_options_button = Label(self.gif_tool_bar, image = self.floppy_image, font = "bold")
+		save_options_button.pack(side = "left")
+		save_menu = Menu(self, tearoff=0)
+		save_menu.add_command(label="Export Gif", command=self.export_gif)
+		save_menu.add_command(label="Export Selected Frame", command=self.export_selected_layer)
+		save_menu.add_command(label="Export Selected Layer", command=self.export_selected_frame)
 		# gif_menu.add_command(label="Export Project as Zip", command=self.export_zip)
 		# gif_menu.add_command(label="Export Project as .lpixel", command=self.flip_selection_horizontal)
 		# gif_menu.add_command(label="Load Folder as Layers in Current Frame", command=self.load_folder_as_layers)
-		bind_popup("<Button-1>", self.gif_file_options, gif_menu)
+		bind_popup("<Button-1>", save_options_button, save_menu)
 
-		self.gif_folder_options = Label(self.gif_tool_bar, image = self.folder_options_symbol, font = "bold")
-		self.gif_folder_options.pack(side = "left")
+		load_options_button = Label(self.gif_tool_bar, image = self.folder_options_symbol, font = "bold")
+		load_options_button.pack(side = "left")
+		load_options_menu = Menu(self, tearoff=0)
+		load_options_menu.add_command(label="Import Gif as Frames", command=self.import_gif)
+		load_options_menu.add_command(label="Load Folder as Frames", command=self.load_folder_as_frames)
+		load_options_menu.add_command(label="Load Folder as Layers in Selected Frame", command=self.load_folder_as_layers)
+		bind_popup("<Button-1>", load_options_button, load_options_menu)
 
-		# create a popup menu
-		gif_folder_menu = Menu(self, tearoff=0)
-		gif_folder_menu.add_command(label="Load Folder as Frames", command=self.load_folder_as_frames)
-		gif_folder_menu.add_command(label="Import Gif as Frames", command=self.import_gif)
-		gif_folder_menu.add_command(label="Load Folder as Layers in Current Frame", command=self.load_folder_as_layers)
-		bind_popup("<Button-1>", self.gif_folder_options, gif_folder_menu)
+		preview_options_button = Label(self.gif_tool_bar, image = self.magnifying_glass_image, font = "bold")
+		preview_options_button.pack(side = "left")
+		preview_options_menu = Menu(self, tearoff=0)
+		preview_options_menu.add_command(label="Inspect Selected Frame", command=self.inspect_frame)
+		preview_options_menu.add_command(label="Inspect Selected Layer", command=self.inspect_layer)
+		bind_popup("<Button-1>", preview_options_button, preview_options_menu)
 
 		# self.separator = Frame(self.gif_tool_bar, background = "black")
 		# self.separator.pack(side = "left", fill = "y", expand = False, pady = 2, padx = 4)
@@ -143,8 +147,6 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		panes.add(self.right_side_frame)
 
 		tool_buttons = [
-			(self.floppy_image, self.save),
-			(self.magnifying_glass_image, self.preview),
 			(self.bytes_image, self.export_bytes),
 			(self.vertical_flip_image, self.flip_vertical),
 			(self.horizontal_flip_image, self.flip_horizontal),
@@ -235,21 +237,14 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 			self.refresh()
 
 	def import_gif(self):
-		gif = filedialog.askopenfilename()
-		image = Image.open(gif)
-		i = 0
-		pallet = image.getpalette()
-		gif_frames = []
-		try:
-			while True:
-				image.putpalette(pallet)
-				new_image = Image.new("RGBA", image.size)
-				new_image.paste(image)
-				gif_frames.append(new_image)
-				i+=1
-				image.seek(image.tell()+1)
-		except EOFError: pass
-		for f in gif_frames: self.project.new_frame_from_image(f)
+		path = filedialog.askopenfilename()
+		self.load_gif(path)
+	def load_gif(self, path):
+		self.project.import_gif(path)
+		self.refresh()
+	def load_gif_fresh(self, path):
+		self.project.del_frame(self.project.selected_frame)
+		self.project.import_gif(path)
 		self.refresh()
 
 	def load_folder_as_layers(self): print("Load folder as layers not implemented")
@@ -258,6 +253,14 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 	def export_gif(self):
 		gif_images = self.project.export_gif_frames()
 		SaveMenu(self.controller, gif_images, gif = True)
+
+	def export_selected_layer(self):
+		image = self.project.selected_frame.selected_layer.export_image()
+		SaveMenu(self.controller, image)
+
+	def export_selected_frame(self):
+		image = self.project.selected_frame.export_composite_image()
+		SaveMenu(self.controller, image)
 
 	def refresh(self):
 		self.canvas.redraw()
@@ -410,7 +413,9 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 			SaveMenu(self.controller, image)
 			self.refresh()
 
-	def preview(self): ImageViewer(self.controller, self.project.selected_frame.selected_layer.export_image())
+	def inspect_layer(self): ImageViewer(self.controller, self.project.selected_frame.selected_layer.export_image())
+	def inspect_frame(self): ImageViewer(self.controller, self.project.selected_frame.export_composite_image())
+
 	def new_layer_in_selected_frame(self): self.new_layer()
 	def new_layer_from_image_in_selected_frame(self):
 		path = filedialog.askopenfilename()
@@ -730,13 +735,40 @@ class FrameFrame(ttk.LabelFrame):
 		if move_type == "moveto":
 			self.canvas.yview("moveto", move_units)
 
-
-
-
-class FrameTile:
-	def __init__(self, manager, frame):
+class BaseTile:
+	def __init__(self, manager):
 		self.x, self.y, self.width, self.height = None, None, None, None
 		self.manager = manager
+		self.thumbnail = None
+		self.references = []
+		self.active = None
+		self.active_references = []
+		self.id = "BaseTile"
+
+	def set_id(self, id): self.id = id
+
+	def activate(self):
+		self.active = True
+		self.manager.activate_tile(self)
+
+	def deactivate(self):
+		self.active = False
+		self.manager.deactivate_tile(self)
+
+	def is_in_range(self, pointer_x, pointer_y):
+		if pointer_x > self.x and pointer_x < self.x + self.width:
+			if pointer_y > self.y and pointer_y < self.y + self.height:
+				return True
+	def is_in_row(self, pointer_y): 
+		if pointer_y > self.y and pointer_y < self.y + self.height: return True
+
+	def on_click(self, pointer_x, pointer_y): return self.check_click_regions(pointer_x, pointer_y)
+
+	def check_click_regions(self, pointer_x, pointer_y): pass
+
+class FrameTile(BaseTile):
+	def __init__(self, manager, frame):
+		BaseTile.__init__(self, manager)
 		self.frame = frame
 		self.id = frame.id
 		self.thumbnail = None
@@ -755,29 +787,10 @@ class FrameTile:
 		self.copy_y, self.name_y, self.trash_y = [self.y + 40] * 3
 		self.up_y, self.down_y, self.carret_y = [self.y + 60] * 3
 
-	def set_id(self, id): self.id = id
-
 	def get_thumbnail(self, size):
 		self.thumbnail = self.frame.export_composite_image()
 		if self.thumbnail: self.thumbnail = self.thumbnail.resize((size, size), Image.BOX)
 		return self.thumbnail
-
-	def activate(self):
-		self.active = True
-		self.manager.activate_tile(self)
-
-	def deactivate(self):
-		self.active = False
-		self.manager.deactivate_tile(self)
-
-	def is_in_range(self, pointer_x, pointer_y):
-		if pointer_x > self.x and pointer_x < self.x + self.width:
-			if pointer_y > self.y and pointer_y < self.y + self.height:
-				return True
-
-	def is_in_row(self, pointer_y): 
-		if pointer_y > self.y and pointer_y < self.y + self.height: return True
-	def on_click(self, pointer_x, pointer_y): return self.check_click_regions(pointer_x, pointer_y)
 
 	def check_click_regions(self, pointer_x, pointer_y):
 		def in_bounds(x, y, width, height):
@@ -806,10 +819,9 @@ class FrameTile:
 		if is_in_carret(): self.manager.toggle_collapsed(self.frame); return True
 
 #This object holds both the layer data and the data for the layer panels for a respective layer
-class LayerTile:
+class LayerTile(BaseTile):
 	def __init__(self, manager, layer, frame):
-		self.x, self.y, self.width, self.height = None, None, None, None
-		self.manager = manager
+		BaseTile.__init__(self, manager)
 		self.layer = layer
 		self.frame = frame
 		self.id = layer.id
@@ -818,7 +830,6 @@ class LayerTile:
 		self.active = layer.active
 		self.active_references = []
 
-	def set_id(self, id): self.id = id
 	def set_dimensions(self, x, y, width, height):
 		self.x, self.y, self.width, self.height = x, y, width, height
 		self.copy_x, self.name_x, self.trash_x = [self.x + self.width + 10 + (i * 20) for i in range(3)]
@@ -827,30 +838,12 @@ class LayerTile:
 		self.copy_y, self.name_y, self.trash_y = [self.y + 40] * 3
 		self.up_y, self.down_y, self.merge_y = [self.y + 60] * 3
 
-
 	def get_thumbnail(self, size):
 		self.thumbnail = self.layer.export_image()
 		self.thumbnail = self.thumbnail.resize((size, size), Image.BOX)
 		# self.thumbnail = ImageTk.PhotoImage(Image.fromarray(self.get_data(), 'RGBA').resize((50, 50), Image.BOX))
 		return self.thumbnail
 
-	def activate(self):
-		self.active = True
-		self.manager.activate_tile(self)
-
-	def deactivate(self):
-		self.active = False
-		self.manager.deactivate_tile(self)
-
-	def is_in_range(self, pointer_x, pointer_y):
-		if pointer_x > self.x and pointer_x < self.x + self.width:
-			if pointer_y > self.y and pointer_y < self.y + self.height:
-				return True
-
-	def is_in_row(self, pointer_y):
-		if pointer_y > self.y and pointer_y < self.y + self.height: return True
-
-	def on_click(self, pointer_x, pointer_y): return self.check_click_regions(pointer_x, pointer_y)
 	def check_click_regions(self, pointer_x, pointer_y):
 		def in_bounds(x, y, width, height):
 			left_bound = x

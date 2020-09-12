@@ -257,3 +257,19 @@ class PixelProject:
 		images = []
 		for f in self.frames: images.append(f.export_composite_image())
 		return images
+
+	def import_gif(self, path):
+		image = Image.open(path)
+		i = 0
+		pallet = image.getpalette()
+		gif_frames = []
+		try:
+			while True:
+				image.putpalette(pallet)
+				new_image = Image.new("RGBA", image.size)
+				new_image.paste(image)
+				gif_frames.append(new_image)
+				i+=1
+				image.seek(image.tell()+1)
+		except EOFError: pass
+		for f in gif_frames: self.new_frame_from_image(f)
