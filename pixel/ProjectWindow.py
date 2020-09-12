@@ -241,7 +241,7 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 
 	def draw_canvas_draw_path(self, x1, y1, x2, y2):
 		for r in self.drawtips_references: self.canvas.canvas.delete(r)
-		if ToolController.tool in [TOOLCONST.LINE]: return self.canvas.canvas.create_line(x1, y1, x2, y2, fill = "#000000", width = 2)
+		if ToolController.tool in [TOOLCONST.LINE, TOOLCONST.MOVE_SELECTION]: return self.canvas.canvas.create_line(x1, y1, x2, y2, fill = "#000000", width = 2)
 		elif ToolController.tool in [TOOLCONST.RECTANGLE, TOOLCONST.SELECT_BOX, TOOLCONST.FILLED_RECTANGLE]: return self.canvas.canvas.create_rectangle(x1, y1, x2, y2, fill = "", width = 2)
 		elif ToolController.tool in [TOOLCONST.ELLIPSE, TOOLCONST.FILLED_ELLIPSE]: return self.canvas.canvas.create_oval(x1, y1, x2, y2, fill = "", width = 2)
 
@@ -356,32 +356,32 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 	def fill_selection(self):
 		layer = self.project.selected_frame.selected_layer
 		if layer.selection:
-			ToolController.fill_selection(layer, ToolController.start_id, ToolController.end_id)
+			ToolController.fill_selection(layer, ToolController.start_selection, ToolController.end_selection)
 			self.refresh()
 	def flip_selection_vertical(self):
 		layer = self.project.selected_frame.selected_layer
 		if layer.selection:
-			ToolController.flip_selection_vertical(layer, ToolController.start_id, ToolController.end_id)
+			ToolController.flip_selection_vertical(layer, ToolController.start_selection, ToolController.end_selection)
 			self.refresh()
 	def flip_selection_horizontal(self):
 		layer = self.project.selected_frame.selected_layer
 		if layer.selection:
-			ToolController.flip_selection_horizontal(layer, ToolController.start_id, ToolController.end_id)
+			ToolController.flip_selection_horizontal(layer, ToolController.start_selection, ToolController.end_selection)
 			self.refresh()
 	def rotate_selection_right(self):
 		layer = self.project.selected_frame.selected_layer
 		if layer.selection:
-			ToolController.rotate_selection_right(layer, ToolController.start_id, ToolController.end_id)
+			ToolController.rotate_selection_right(layer, ToolController.start_selection, ToolController.end_selection)
 			self.refresh()
 	def rotate_seletion_left(self):
 		layer = self.project.selected_frame.selected_layer
 		if layer.selection:
-			ToolController.rotate_selection_left(layer, ToolController.start_id, ToolController.end_id)
+			ToolController.rotate_selection_left(layer, ToolController.start_selection, ToolController.end_selection)
 			self.refresh()
 	def export_selection(self):
 		layer = self.project.selected_frame.selected_layer
 		if layer.selection:
-			image = ToolController.export_selection(layer, ToolController.start_id, ToolController.end_id)
+			image = ToolController.export_selection(layer, ToolController.start_selection, ToolController.end_selection)
 			SaveMenu(self.controller, image)
 			self.refresh()
 
