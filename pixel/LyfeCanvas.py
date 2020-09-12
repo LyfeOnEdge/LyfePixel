@@ -24,6 +24,8 @@ class LyfeCanvas(Frame):
 		self.redraw()
 		self.canvas.bind('<Configure>', self.on_configure)
 		self.last_array = None
+		self.last_width = None
+		self.last_height = None
 
 	def clear(self): self.canvas.delete("all")
 
@@ -58,13 +60,15 @@ class LyfeCanvas(Frame):
 		self.canvas_height = self.canvas.winfo_height()
 		if not min(self.canvas_width, self.canvas_height) > 1: return print("Insufficient size to draw canvas") #If the canvas hasn't expanded yet it is only 1x1
 		if self.first_draw: self.first_draw = False
-		self.background = make_checkerboard(self.canvas_width, self.canvas_height)
+		
+		if not [self.last_width, self.last_height] == [self.canvas_width, self.canvas_height]:
+			self.background = make_checkerboard(self.canvas_width, self.canvas_height)
+			self.last_width, self.last_height = self.canvas_width, self.canvas_height
 		
 		self.layer_image = layer.export_image()
-		if self.layer_image.size[0] == self.canvas_width and self.layer_image.size[1] == self.canvas_height: pass
-		else: self.layer_image = self.layer_image.resize((self.canvas_width, self.canvas_height), Image.BOX)
-		
-		self.merged_images = self.background
+		self.layer_image = self.layer_image.resize((self.canvas_width, self.canvas_height), Image.BOX)
+
+		self.merged_images = self.background.copy()
 		self.merged_images.paste(self.layer_image, (0,0,self.canvas_width,self.canvas_height), self.layer_image)
 		self.merged_images = ImageTk.PhotoImage(self.merged_images)
 
@@ -73,11 +77,11 @@ class LyfeCanvas(Frame):
 		self.pixel_height = (1 / layer.height) * self.canvas_height
 		if min(self.pixel_width, self.pixel_height) < 5: return #don't draw lines if tiny
 		self.canvas.create_rectangle(0, 0, self.canvas_width, self.canvas_height, outline="#BBBBBB", width = 2)
+		
 		for i in range(1, layer.width): self.canvas.create_line(i * self.pixel_width, 0, i * self.pixel_width, self.canvas_height - 1, fill="#BBBBBB", width = 2)
 		for i in range(1, layer.height): self.canvas.create_line(0, i * self.pixel_width, self.canvas_width - 1, i * self.pixel_width, fill="#BBBBBB", width = 2)
 		if layer.selection:
-			for id in layer.selection:
-				self.draw_pixel(id)
+			for id in layer.selection: self.draw_pixel(id)
 
 	#Uses stored pixel widths and heights for calculation
 	def draw_pixel(self, id):
