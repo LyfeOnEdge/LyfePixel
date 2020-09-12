@@ -38,6 +38,9 @@ up_carret_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\
 down_carret_bytes = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x00TIDATx\x9c\xed\x91\xb1\x12\x00\x10\x0cCS\xff\xff\xcf5qJBM\x16\x99J\x9awU\xc0\xd7{\x19\x00\x9f\xce\x19\xf5LQF&\xcc\x00'\xc8\xe21\x80\x82Pp\x81~\xb7\x8bz\x94Y\xa2I\xc9\xda\x04\xe1\xe2&<\x03\xb2\x90\xd0\xc3\x96\xb8\x83,\x9e\xfa\x05\x06\xa1\xe0\nPm\x0b\x14\xaa\x93\x9f.\x00\x00\x00\x00IEND\xaeB`\x82"
 layers_symbol_bytes = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x14\x00\x00\x00\x14\x08\x06\x00\x00\x00\x8d\x89\x1d\r\x00\x00\x00\x88IDATx\x9c\xdd\x94Q\x0e\xc0 \x08C\xd5\xfb\xdf\x99\xfd\x0c3\xb1\xd4\xea\xf65\x13\x13E\xf6V\x1a\xb4\x94|\xd8=\xb7F%05w\x99\xb4RE\xc1\xf1p\xa7D\x08~\x06\xb7\xfdB`\xdf\x9c\xc2&V\xfb\x126,^\x80\x87\x92[8\x90Z\x03\xc0\xba\x18/\xd9B\x92\x02\x86\xfe\xd7\x18\x000\xd6\xe4\x16\xf6\xd4\xc3\x0c\x9c\xc2\xd0G\n8\x83W\x0f\xc0?\x110U\xfa\x7f\x0f'Q\xac\xdf\x14\x0f\xa7\xb5\xd2\xc0\xab\xc76S+\x81\xb3\xfb\xde\xe3\x17\xc0\xce,\x11\xce3\xde\x16\x00\x00\x00\x00IEND\xaeB`\x82"
 folder_options_symbol_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x00dIDATx\x9c\xa5RA\x0e\xc0 \x08\x03\xb3\xff\x7f\x99\x1d\x16\x17m\xc0\x96\xd8\x0bQ\xda\xda n\x1f\xc2j\xf8\xa1g\x83\x88\x99\xb9\xf9B\xc8^\n\xe0\xb6\rh\x82qj21&`\xbc\xd4\x9c%\xa8\xc4?\x1e\x95XAIpm\x803\xda\xcej\x82\x80\xda2\x98\xb3I\xf7EM\xe0P\xdb\x06\xa9x^*\x8bT\xe2\xfa\x1b_\xdd\xf7\x10\x1a%V\x92.\x00\x00\x00\x00IEND\xaeB`\x82'
+effects_wand_symbol_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x00dIDATx\x9c\x9d\x93\xc1\x12\x00 \x04D\xe3\xff\xffY\xa7\x1aE\xbb\xd4%\x8c\xb7\xb32\x8d\xc1\x8f\xa1\xba4`y\xd4[\x0eB\xcc\x1cP7\xfa\x01\x1fyE \x9b\xb7\xec\x00\xc1\xf4\r(\x8c\x1c@\xdb.\x96L\x80\xc1\xe6k\xb7@\x15NG`\xb0\xcf\xc3\x16*\xf0\xea;\x1ci\x03\xf6"\xfb\x0ek!0\xec\xed\xfc\xb0\xdd;\x01\xa1\x94 \n\xf4#\xf2;\x00\x00\x00\x00IEND\xaeB`\x82'
+
+
 
 WIDTH = 1080
 HEIGHT = 720
@@ -84,6 +87,7 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		self.selection_options_image = load_tk_image_from_bytes_array(selection_options_bytes)
 		self.layers_symbol_image = load_tk_image_from_bytes_array(layers_symbol_bytes)
 		self.folder_options_symbol = load_tk_image_from_bytes_array(folder_options_symbol_bytes)
+		self.effects_wand_symbol = load_tk_image_from_bytes_array(effects_wand_symbol_bytes)
 
 		self.drawtips_references = []
 		self.project = PixelProject(self.width, self.height)
@@ -194,6 +198,23 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		self.selections_options_menu_button = Label(self.tool_bar, image = self.selection_options_image, font = "bold")
 		self.selections_options_menu_button.pack(side = "left")
 		bind_popup("<Button-1>", self.selections_options_menu_button, selection_menu)
+
+
+		# create a popup menu
+		effects_menu = Menu(self, tearoff=0)
+		effects_menu.add_command(label = "Apply Blur Filter", command = self.effect_blur_layer)
+		effects_menu.add_command(label = "Apply Contour Filter", command = self.effect_contour_layer)
+		effects_menu.add_command(label = "Apply Detail Filter", command = self.effect_detail_layer)
+		effects_menu.add_command(label = "Apply Edge Enhance", command = self.effect_edge_enhance_layer)
+		effects_menu.add_command(label = "Apply Edge Enhance More Filter", command = self.effect_edge_enhance_more_layer)
+		effects_menu.add_command(label = "Apply Emboss Filter", command = self.effect_emboss_layer)
+		effects_menu.add_command(label = "Apply Find Edges Filter", command = self.effect_find_edges_layer)
+		effects_menu.add_command(label = "Apply Sharpen Filter", command = self.effect_sharpen_layer)
+		effects_menu.add_command(label = "Apply Smooth Filter", command = self.effect_smooth_layer)
+		effects_menu.add_command(label = "Apply Smooth More Filter", command = self.effect_smooth_more_layer)
+		self.effects_options_menu_button = Label(self.tool_bar, image = self.effects_wand_symbol, font = "bold")
+		self.effects_options_menu_button.pack(side = "left")
+		bind_popup("<Button-1>", self.effects_options_menu_button, effects_menu)
 
 		self.canvas_frame = ttk.LabelFrame(self.right_side_frame, text = "")
 		self.canvas_frame.pack(fill = "both", expand = True, anchor = "n", padx = 3)
@@ -380,6 +401,37 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		self.refresh()
 	def to_grayscale(self):
 		self.canvas.to_grayscale()
+		self.refresh()
+
+	def effect_blur_layer(self):
+		ToolController.effect_blur_layer(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_contour_layer(self):
+		ToolController.effect_contour_layer(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_detail_layer(self):
+		ToolController.effect_detail_layer(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_edge_enhance_layer(self):
+		ToolController.effect_edge_enhance_layer(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_edge_enhance_more_layer(self):
+		ToolController.effect_edge_enhance_more_layer(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_emboss_layer(self):
+		ToolController.effect_emboss_layer(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_find_edges_layer(self):
+		ToolController.effect_find_edges_layer(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_sharpen_layer(self):
+		ToolController.effect_sharpen_layer(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_smooth_layer(self):
+		ToolController.effect_smooth_layer(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_smooth_more_layer(self):
+		ToolController.effect_smooth_more_layer(self.project.selected_frame.selected_layer)
 		self.refresh()
 
 	def fill_selection(self):

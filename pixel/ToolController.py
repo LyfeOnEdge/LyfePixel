@@ -1,6 +1,6 @@
 from .colormath import hex_to_rgb
 from .file_management import load_tk_image_from_bytes_array
-from PIL import Image, ImageTk, ImageOps, ImageDraw
+from PIL import Image, ImageTk, ImageOps, ImageDraw, ImageFilter
 
 
 DRAW = "draw"
@@ -19,7 +19,6 @@ FILLED_ELLIPSE = "filledellipse"
 
 OVERWRITE_SELECTION = "overwriteselection"
 EXTEND_SELECTIION = "extendselection"
-
 
 class constants:
 	def __init__(self):
@@ -424,6 +423,103 @@ class Controller:
 		self.select_box(layer, self.start_selection, self.end_selection, mode = OVERWRITE_SELECTION)
 		return image
 
+	def effect_blur_layer(self, layer):
+		image = layer.export_image()
+		image = image.filter(ImageFilter.BLUR)
+		layer.load_image(image)
+
+	def effect_contour_layer(self, layer):
+		image = layer.export_image()
+		image = image.filter(ImageFilter.CONTOUR)
+		layer.load_image(image)
+
+	def effect_detail_layer(self, layer):
+		image = layer.export_image()
+		image = image.filter(ImageFilter.DETAIL)
+		layer.load_image(image)
+
+	def effect_edge_enhance_layer(self, layer):
+		image = layer.export_image()
+		image = image.filter(ImageFilter.EDGE_ENHANCE)
+		layer.load_image(image)
+
+	def effect_edge_enhance_more_layer(self, layer):
+		image = layer.export_image()
+		image = image.filter(ImageFilter.EDGE_ENHANCE_MORE)
+		layer.load_image(image)
+
+	def effect_emboss_layer(self, layer):
+		image = layer.export_image()
+		image = image.filter(ImageFilter.EMBOSS)
+		layer.load_image(image)
+
+	def effect_find_edges_layer(self, layer):
+		image = layer.export_image()
+		image = image.filter(ImageFilter.FIND_EDGES)
+		layer.load_image(image)
+
+	def effect_sharpen_layer(self, layer):
+		image = layer.export_image()
+		image = image.filter(ImageFilter.SHARPEN)
+		layer.load_image(image)
+
+	def effect_smooth_layer(self, layer):
+		image = layer.export_image()
+		image = image.filter(ImageFilter.SMOOTH)
+		layer.load_image(image)
+
+	def effect_smooth_more_layer(self, layer):
+		image = layer.export_image()
+		image = image.filter(ImageFilter.SMOOTH_MORE)
+		layer.load_image(image)
+
+	def effect_gaussian_layer(self, layer, radius = 2):
+		image = layer.export_image()
+		image = image.filter(ImageFilter.GaussianBlur(radius = radius))
+		layer.load_image(image)
+
+	def effect_box_blur_layer(self, layer, radius = 2):
+		image = layer.export_image()
+		image = image.filter(ImageFilter.BoxBlur(radius = radius))
+		layer.load_image(image)
+
+	def effect_unsharp_mask_layer(self, layer, radius=2, percent=150, threshold=3):
+		image = layer.export_image()
+		image = image.filter(ImageFilter.UnsharpMask(radius=radius, percent=percent, threshold=threshold))
+		layer.load_image(image)
+
+	def effect_kernal_layer(self, size, kernel, scale=None, offset=0):
+		image = layer.export_image()
+		image = image.filter(ImageFilter.Kernel(size, kernel, scale=None, offset=0))
+		layer.load_image(image)
+
+	def effect_rank_layer(self, size, kernel, scale=None, offset=0):
+		image = layer.export_image()
+		image = image.filter(ImageFilter.Kernel(size, kernel, scale=None, offset=0))
+		layer.load_image(image)
+
+
+
+# ImageFilter.RankFilter(size, rank)
+# ImageFilter.MedianFilter(size=3)
+# ImageFilter.MinFilter(size=3)
+# ImageFilter.MaxFilter(size=3)
+# ImageFilter.ModeFilter(size=3)
+# ImageDraw.ImageDraw.arc(xy, start, end, fill=None)
+# ImageDraw.ImageDraw.chord(xy, start, end, fill=None, outline=None)
+# ImageDraw.ImageDraw.pieslice(xy, start, end, fill=None, outline=None)
+# ImageDraw.ImageDraw.polygon(xy, fill=None, outline=None)
+# ImageEnhance.Color(image, 1.0)
+# ImageEnhance.Contrast(image) 0 - 1
+# ImageEnhance.Brightness(image) 0 -> 1
+# ImageEnhance.Sharpness(image) 0 -> 2
+# ImageOps.autocontrast(image, cutoff=0, ignore=None) #Normalize
+# ImageOps.colorize(image, black, white) #Colorize Grayscale
+# ImageOps.equalize(image, mask=None)
+# ImageOps.expand(image, border=0, fill=0) #For canvas resize
+# ImageOps.fit(image, size, method=0, bleed=0.0, centering=(0.5, 0.5))
+# ImageOps.posterize(image, bits)
+# ImageOps.solarize(image, threshold=128)
 
 
 ToolController = Controller()
