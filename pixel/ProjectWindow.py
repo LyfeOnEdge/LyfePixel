@@ -126,9 +126,6 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		preview_options_menu.add_command(label="Inspect Selected Layer", command=self.inspect_layer)
 		bind_popup("<Button-1>", preview_options_button, preview_options_menu)
 
-		# self.separator = Frame(self.gif_tool_bar, background = "black")
-		# self.separator.pack(side = "left", fill = "y", expand = False, pady = 2, padx = 4)
-		
 		panes2 = PanedWindow(self.left_side_frame, orient = "vertical", sashpad=3, sashrelief ="sunken")
 		panes2.pack(fill = "both", expand = True, padx = 4, pady = (0,4))
 		panes2.config(borderwidth = 0)
@@ -147,22 +144,20 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		panes.add(self.right_side_frame)
 
 		tool_buttons = [
-			(self.bytes_image, self.export_bytes),
 			(self.vertical_flip_image, self.flip_vertical),
 			(self.horizontal_flip_image, self.flip_horizontal),
 			(self.rotate_left_image, self.rotate_left),
 			(self.rotate_right_image, self.rotate_right),
-			# (self.to_grayscale_image, self.to_grayscale)
 		]
 
 		self.tool_bar = ToolBar(tool_buttons, self.right_side_frame)
 		self.tool_bar.pack(side = "top", fill = "x")
 
 
-		# create a popup menu
 		layer_menu = Menu(self, tearoff = 0)
 		layer_menu.add_command(label = "Rename Current Layer", command = self.rename_selected_layer)
 		layer_menu.add_command(label = "Export Current Layer", command = self.save)
+		layer_menu.add_command(label = "Export Current Layer as Bytes (Console)", command = self.export_selected_layer_as_bytes)
 		layer_menu.add_command(label = "Delete Current Layer", command = self.delete_selected_layer)
 		layer_menu.add_command(label = "Copy Current Layer", command = self.copy_selected_layer)
 		layer_menu.add_command(label = "Promote Current Layer", command = self.promote_selected_layer)
@@ -171,6 +166,7 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		layer_menu.add_separator()
 		layer_menu.add_command(label = "Rename Current Frame", command = self.rename_selected_frame)
 		layer_menu.add_command(label = "Export Current Frame", command = self.save_selected_frame)
+		layer_menu.add_command(label = "Export Current Frame as Bytes (Console)", command = self.export_selected_frame_as_bytes)
 		layer_menu.add_command(label = "Delete Current Frame", command = self.delete_selected_frame)
 		layer_menu.add_command(label = "Copy Current Frame", command = self.copy_selected_frame)
 		layer_menu.add_command(label = "Promote Current Frame", command = self.promote_selected_frame)
@@ -178,13 +174,12 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		layer_menu.add_command(label = "New Layer in Current Frame", command = self.new_layer_in_selected_frame)
 		layer_menu.add_command(label = "New Layer from Image in Current Frame", command = self.new_layer_from_image_in_selected_frame)
 		
-
 		self.layer_options_menu_button = Label(self.tool_bar, image = self.layers_symbol_image, font = "bold")
 		self.layer_options_menu_button.pack(side = "left")
 		bind_popup("<Button-1>", self.layer_options_menu_button, layer_menu)
 
-		self.separator = Frame(self.tool_bar, background = "black")
-		self.separator.pack(side = "left", fill = "y", expand = False, pady = 2, padx = 4)
+		# self.separator = Frame(self.tool_bar, background = "black")
+		# self.separator.pack(side = "left", fill = "y", expand = False, pady = 2, padx = 4)
 
 		# create a popup menu
 		selection_menu = Menu(self, tearoff=0)
@@ -194,6 +189,7 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		selection_menu.add_command(label = "Rotate Selection Right", command = self.rotate_selection_right)
 		selection_menu.add_command(label = "Rotate Selection Left", command = self.rotate_seletion_left)
 		selection_menu.add_command(label = "Export Selection", command = self.export_selection)
+		selection_menu.add_command(label = "Export Selection as Bytes (Console)", command = self.export_selection_as_bytes)
 		selection_menu.add_command(label = "New Layer from Selection", command = self.new_layer_image_from_selection)
 		self.selections_options_menu_button = Label(self.tool_bar, image = self.selection_options_image, font = "bold")
 		self.selections_options_menu_button.pack(side = "left")
@@ -258,9 +254,17 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		image = self.project.selected_frame.selected_layer.export_image()
 		SaveMenu(self.controller, image)
 
+	def export_selected_layer_as_bytes(self):
+		image = self.project.selected_frame.selected_layer.export_image()
+		print(convert_tk_image_to_bytes_array(image))
+
 	def export_selected_frame(self):
 		image = self.project.selected_frame.export_composite_image()
 		SaveMenu(self.controller, image)
+
+	def export_selected_frame_as_bytes(self):
+		image = self.project.selected_frame.export_composite_image()
+		print(convert_tk_image_to_bytes_array(image))
 
 	def refresh(self):
 		self.canvas.redraw()
@@ -377,9 +381,6 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 	def to_grayscale(self):
 		self.canvas.to_grayscale()
 		self.refresh()
-	def export_bytes(self):
-		print(self.project.selected_frame.selected_layer.export_image_bytes())
-		self.refresh()
 
 	def fill_selection(self):
 		layer = self.project.selected_frame.selected_layer
@@ -412,6 +413,11 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 			image = ToolController.export_selection(layer, ToolController.start_selection, ToolController.end_selection)
 			SaveMenu(self.controller, image)
 			self.refresh()
+	def export_selection_as_bytes(self):
+		layer = self.project.selected_frame.selected_layer
+		if layer.selection:
+			image = ToolController.export_selection(layer, ToolController.start_selection, ToolController.end_selection)
+			print(convert_tk_image_to_bytes_array(image))
 
 	def inspect_layer(self): ImageViewer(self.controller, self.project.selected_frame.selected_layer.export_image())
 	def inspect_frame(self): ImageViewer(self.controller, self.project.selected_frame.export_composite_image())
