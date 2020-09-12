@@ -212,6 +212,15 @@ class PixelProject:
 		self.selected_frame = f
 		return f
 
+	def new_frame_from_image(self, image, id = "New Frame"):
+		f = LyfeFrame(id, self.width, self.height)
+		l = f.selected_layer
+		f.del_layer(l)
+		f.new_layer_from_image(image)
+		self.frames.append(f)
+		self.selected_frame = f
+		return f
+
 	def del_frame(self, frame):
 		self.frames.remove(frame)
 
@@ -244,7 +253,7 @@ class PixelProject:
 		frame = self.frames.pop(index)
 		self.frames.insert(index + 1, frame)
 
-	def export_gif(self):
+	def export_gif_frames(self):
 		images = []
 		for f in self.frames: images.append(f.export_composite_image())
 		return images

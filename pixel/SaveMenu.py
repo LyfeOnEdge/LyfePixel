@@ -15,11 +15,11 @@ HEIGHT = 400
 # #Color options constants
 BLACKANDWHITE = 0
 GRAYSCALE = 1
-RGB = 2
+RGBA = 2
 COLOR_OPTIONS = {
 	BLACKANDWHITE : "Black and White",
 	GRAYSCALE : "Grayscale",
-	RGB : "RGB"
+	RGBA : "RGBA"
 }
 
 
@@ -138,7 +138,7 @@ class SaveMenu(BaseWindow):
 
 		#Color--------------------------------------------
 
-		color_options = [(COLOR_OPTIONS[RGB], RGB), (COLOR_OPTIONS[GRAYSCALE], GRAYSCALE), (COLOR_OPTIONS[BLACKANDWHITE], BLACKANDWHITE)]
+		color_options = [(COLOR_OPTIONS[RGBA], RGBA), (COLOR_OPTIONS[GRAYSCALE], GRAYSCALE), (COLOR_OPTIONS[BLACKANDWHITE], BLACKANDWHITE)]
 		self.color_selection = selection_box("COLOR", color_options, self.on_color_select, sizing_and_color_frame)
 		self.color_selection.pack(fill = "both", expand = True, side = "top", padx = 4, )
 
@@ -247,7 +247,7 @@ class SaveMenu(BaseWindow):
 		if not image_data: return
 
 		color_options = {
-			RGB : handle_RGB,
+			RGBA : handle_RGBA,
 			GRAYSCALE : convert_image_to_grayscale,
 			BLACKANDWHITE : convert_image_to_blackandwhite
 		}
@@ -321,8 +321,8 @@ class SaveMenu(BaseWindow):
 				self.error(f"Error resizing image - {e}")
 				return
 			
-		def handle_RGB(image):
-			print(f"ALREADY RGB")
+		def handle_RGBA(image):
+			print(f"ALREADY RGBA")
 			return image
 
 		sizing_options = {
@@ -344,7 +344,7 @@ class SaveMenu(BaseWindow):
 				return
 
 		color_options = {
-			RGB : handle_RGB,
+			RGBA : handle_RGBA,
 			GRAYSCALE : convert_image_to_grayscale,
 			BLACKANDWHITE : convert_image_to_blackandwhite
 		}
@@ -379,7 +379,6 @@ class SaveMenu(BaseWindow):
 		duration = 100
 
 		def handle_loop():
-			print(":handleloop")
 			if self.number_of_loops.get(): return int(self.number_of_loops.get())
 			else: return 0
 		def handle_no_loop(): return 1
@@ -391,10 +390,8 @@ class SaveMenu(BaseWindow):
 
 		loop = loop_options[self.loop_selection.get()]()
 		duration = int(self.duration_entry.get())
-		print(loop, duration)
 		try:
-			print("Saving...")
-			images[0].save(filename, save_all=True, append_images=images[1:], optimize=False, duration=int(duration), loop=int(loop))
+			images[0].save(filename, format='GIF', save_all=True, append_images=images[1:], duration=int(duration), loop=int(loop), transparency=255, optimize = False, disposal = 2)
 		except Exception as e:
 			self.error(f"Error saving image: {e}")
 			return

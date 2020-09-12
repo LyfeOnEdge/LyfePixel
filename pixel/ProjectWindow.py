@@ -38,6 +38,7 @@ selection_options_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x14\
 up_carret_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x00QIDATx\x9c\xed\x92\xc1\x0e\x00 \x08B\xd5\xff\xffg;\xb55\x02\xe6\xadK\x1c\xe5\x81[\x16\xf1\xf5^i\xbc\x9e\xb05\x0c\xab\x19-\xa0\xa0\xf2\xb0\xc0\x85)S\xca\x98\x96\x14\x0e@\x19\xfa\xa1{\x03.L\xb7\x9eRW`[\xc7gt\x7f\xe3\xf2\xb0\xc0\x85)\xb3\x00\xc8\xb0\r\x10{\x8cD\xc6\x00\x00\x00\x00IEND\xaeB`\x82'
 down_carret_bytes = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x00TIDATx\x9c\xed\x91\xb1\x12\x00\x10\x0cCS\xff\xff\xcf5qJBM\x16\x99J\x9awU\xc0\xd7{\x19\x00\x9f\xce\x19\xf5LQF&\xcc\x00'\xc8\xe21\x80\x82Pp\x81~\xb7\x8bz\x94Y\xa2I\xc9\xda\x04\xe1\xe2&<\x03\xb2\x90\xd0\xc3\x96\xb8\x83,\x9e\xfa\x05\x06\xa1\xe0\nPm\x0b\x14\xaa\x93\x9f.\x00\x00\x00\x00IEND\xaeB`\x82"
 layers_symbol_bytes = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x14\x00\x00\x00\x14\x08\x06\x00\x00\x00\x8d\x89\x1d\r\x00\x00\x00\x88IDATx\x9c\xdd\x94Q\x0e\xc0 \x08C\xd5\xfb\xdf\x99\xfd\x0c3\xb1\xd4\xea\xf65\x13\x13E\xf6V\x1a\xb4\x94|\xd8=\xb7F%05w\x99\xb4RE\xc1\xf1p\xa7D\x08~\x06\xb7\xfdB`\xdf\x9c\xc2&V\xfb\x126,^\x80\x87\x92[8\x90Z\x03\xc0\xba\x18/\xd9B\x92\x02\x86\xfe\xd7\x18\x000\xd6\xe4\x16\xf6\xd4\xc3\x0c\x9c\xc2\xd0G\n8\x83W\x0f\xc0?\x110U\xfa\x7f\x0f'Q\xac\xdf\x14\x0f\xa7\xb5\xd2\xc0\xab\xc76S+\x81\xb3\xfb\xde\xe3\x17\xc0\xce,\x11\xce3\xde\x16\x00\x00\x00\x00IEND\xaeB`\x82"
+folder_options_symbol_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x00dIDATx\x9c\xa5RA\x0e\xc0 \x08\x03\xb3\xff\x7f\x99\x1d\x16\x17m\xc0\x96\xd8\x0bQ\xda\xda n\x1f\xc2j\xf8\xa1g\x83\x88\x99\xb9\xf9B\xc8^\n\xe0\xb6\rh\x82qj21&`\xbc\xd4\x9c%\xa8\xc4?\x1e\x95XAIpm\x803\xda\xcej\x82\x80\xda2\x98\xb3I\xf7EM\xe0P\xdb\x06\xa9x^*\x8bT\xe2\xfa\x1b_\xdd\xf7\x10\x1a%V\x92.\x00\x00\x00\x00IEND\xaeB`\x82'
 
 WIDTH = 1080
 HEIGHT = 720
@@ -83,6 +84,7 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		self.to_grayscale_image = load_tk_image_from_bytes_array(to_grayscale_bytes)
 		self.selection_options_image = load_tk_image_from_bytes_array(selection_options_bytes)
 		self.layers_symbol_image = load_tk_image_from_bytes_array(layers_symbol_bytes)
+		self.folder_options_symbol = load_tk_image_from_bytes_array(folder_options_symbol_bytes)
 
 		self.drawtips_references = []
 		self.project = PixelProject(self.width, self.height)
@@ -107,10 +109,18 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		gif_menu.add_command(label="Export Gif", command=self.export_gif)
 		# gif_menu.add_command(label="Export Project as Zip", command=self.export_zip)
 		# gif_menu.add_command(label="Export Project as .lpixel", command=self.flip_selection_horizontal)
-		# gif_menu.add_command(label="Load Folder as Frames", command=self.load_folder_as_frames)
 		# gif_menu.add_command(label="Load Folder as Layers in Current Frame", command=self.load_folder_as_layers)
-
 		bind_popup("<Button-1>", self.gif_file_options, gif_menu)
+
+		self.gif_folder_options = Label(self.gif_tool_bar, image = self.folder_options_symbol, font = "bold")
+		self.gif_folder_options.pack(side = "left")
+
+		# create a popup menu
+		gif_folder_menu = Menu(self, tearoff=0)
+		gif_folder_menu.add_command(label="Load Folder as Frames", command=self.load_folder_as_frames)
+		gif_folder_menu.add_command(label="Import Gif as Frames", command=self.import_gif)
+		gif_folder_menu.add_command(label="Load Folder as Layers in Current Frame", command=self.load_folder_as_layers)
+		bind_popup("<Button-1>", self.gif_folder_options, gif_folder_menu)
 
 		# self.separator = Frame(self.gif_tool_bar, background = "black")
 		# self.separator.pack(side = "left", fill = "y", expand = False, pady = 2, padx = 4)
@@ -149,8 +159,6 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 
 		# create a popup menu
 		layer_menu = Menu(self, tearoff = 0)
-
-		
 		layer_menu.add_command(label = "Rename Current Layer", command = self.rename_selected_layer)
 		layer_menu.add_command(label = "Export Current Layer", command = self.save)
 		layer_menu.add_command(label = "Delete Current Layer", command = self.delete_selected_layer)
@@ -159,8 +167,6 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		layer_menu.add_command(label = "Demote Current Layer", command = self.demote_selected_layer)
 		layer_menu.add_command(label = "Merge Layer Down", command = self.merge_selected_layer_down)
 		layer_menu.add_separator()
-
-
 		layer_menu.add_command(label = "Rename Current Frame", command = self.rename_selected_frame)
 		layer_menu.add_command(label = "Export Current Frame", command = self.save_selected_frame)
 		layer_menu.add_command(label = "Delete Current Frame", command = self.delete_selected_frame)
@@ -169,12 +175,6 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		layer_menu.add_command(label = "Demote Current Frame", command = self.demote_selected_frame)
 		layer_menu.add_command(label = "New Layer in Current Frame", command = self.new_layer_in_selected_frame)
 		layer_menu.add_command(label = "New Layer from Image in Current Frame", command = self.new_layer_from_image_in_selected_frame)
-		
-
-		
-
-
-		
 		
 
 		self.layer_options_menu_button = Label(self.tool_bar, image = self.layers_symbol_image, font = "bold")
@@ -226,12 +226,37 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		self.canvas.canvas.bind("<B1-Motion>", self.on_canvas_drag)
 		self.canvas.canvas.bind("<ButtonRelease-1>", self.on_canvas_release)
 
-	def load_folder_as_frames(self): print("Load folder as frames not implemented")
+	def load_folder_as_frames(self):
+		path = filedialog.askdirectory()
+		if path:
+			entries = os.scandir(path)
+			files = [e for e in entries if e.is_file()]
+			for f in files: self.project.new_frame_from_image(Image.open(f.path))
+			self.refresh()
+
+	def import_gif(self):
+		gif = filedialog.askopenfilename()
+		image = Image.open(gif)
+		i = 0
+		pallet = image.getpalette()
+		gif_frames = []
+		try:
+			while True:
+				image.putpalette(pallet)
+				new_image = Image.new("RGBA", image.size)
+				new_image.paste(image)
+				gif_frames.append(new_image)
+				i+=1
+				image.seek(image.tell()+1)
+		except EOFError: pass
+		for f in gif_frames: self.project.new_frame_from_image(f)
+		self.refresh()
+
 	def load_folder_as_layers(self): print("Load folder as layers not implemented")
 	def export_zip(self): print("Export zip not implemented")
 	def export_project(self): print("Export project not implemented")
 	def export_gif(self):
-		gif_images = self.project.export_gif()
+		gif_images = self.project.export_gif_frames()
 		SaveMenu(self.controller, gif_images, gif = True)
 
 	def refresh(self):
@@ -453,7 +478,7 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 
 	def new_layer_image_from_selection(self):
 		if not self.project.selected_frame.selected_layer.selection: return
-		image = ToolController.new_layer_image_from_selection(self.project.selected_frame.selected_layer, ToolController.start_id, ToolController.end_id)
+		image = ToolController.new_layer_image_from_selection(self.project.selected_frame.selected_layer, ToolController.start_selection, ToolController.end_selection)
 		self.project.selected_frame.new_layer_from_image(image)
 		self.refresh()
 
