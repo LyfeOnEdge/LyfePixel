@@ -473,6 +473,9 @@ class Controller:
 		image = image.filter(ImageFilter.SMOOTH_MORE)
 		layer.load_image(image)
 
+
+
+
 	def effect_gaussian_layer(self, layer, radius = 2):
 		image = layer.export_image()
 		image = image.filter(ImageFilter.GaussianBlur(radius = radius))
@@ -483,28 +486,46 @@ class Controller:
 		image = image.filter(ImageFilter.BoxBlur(radius = radius))
 		layer.load_image(image)
 
-	def effect_unsharp_mask_layer(self, layer, radius=2, percent=150, threshold=3):
+	def effect_median_filter_layer(self, layer, size=3):
 		image = layer.export_image()
-		image = image.filter(ImageFilter.UnsharpMask(radius=radius, percent=percent, threshold=threshold))
+		image = image.filter(ImageFilter.MedianFilter(size=size))
 		layer.load_image(image)
 
-	def effect_kernal_layer(self, size, kernel, scale=None, offset=0):
+	def effect_min_filter_layer(self, layer, size=3):
 		image = layer.export_image()
-		image = image.filter(ImageFilter.Kernel(size, kernel, scale=None, offset=0))
+		image = image.filter(ImageFilter.MinFilter(size=size))
 		layer.load_image(image)
 
-	def effect_rank_layer(self, size, kernel, scale=None, offset=0):
+	def effect_max_filter_layer(self, layer, size=3):
 		image = layer.export_image()
-		image = image.filter(ImageFilter.Kernel(size, kernel, scale=None, offset=0))
+		image = image.filter(ImageFilter.MaxFilter(size=size))
 		layer.load_image(image)
+
+	def effect_mode_filter_layer(self, layer, size=3):
+		image = layer.export_image()
+		image = image.filter(ImageFilter.ModeFilter(size=size))
+		layer.load_image(image)
+
+
+	# def effect_unsharp_mask_layer(self, layer, radius=2, percent=150, threshold=3):
+	# 	image = layer.export_image()
+	# 	image = image.filter(ImageFilter.UnsharpMask(radius=radius, percent=percent, threshold=threshold))
+	# 	layer.load_image(image)
+
+	# def effect_kernal_layer(self, size, kernel, scale=None, offset=0):
+	# 	image = layer.export_image()
+	# 	image = image.filter(ImageFilter.Kernel(size, kernel, scale=None, offset=0))
+	# 	layer.load_image(image)
+
+	# def effect_rank_layer(self, size, kernel, scale=None, offset=0):
+	# 	image = layer.export_image()
+	# 	image = image.filter(ImageFilter.Kernel(size, kernel, scale=None, offset=0))
+	# 	layer.load_image(image)
 
 
 
 # ImageFilter.RankFilter(size, rank)
-# ImageFilter.MedianFilter(size=3)
-# ImageFilter.MinFilter(size=3)
-# ImageFilter.MaxFilter(size=3)
-# ImageFilter.ModeFilter(size=3)
+
 # ImageDraw.ImageDraw.arc(xy, start, end, fill=None)
 # ImageDraw.ImageDraw.chord(xy, start, end, fill=None, outline=None)
 # ImageDraw.ImageDraw.pieslice(xy, start, end, fill=None, outline=None)

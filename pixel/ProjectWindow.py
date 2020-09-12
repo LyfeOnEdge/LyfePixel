@@ -212,6 +212,13 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		effects_menu.add_command(label = "Apply Sharpen Filter", command = self.effect_sharpen_layer)
 		effects_menu.add_command(label = "Apply Smooth Filter", command = self.effect_smooth_layer)
 		effects_menu.add_command(label = "Apply Smooth More Filter", command = self.effect_smooth_more_layer)
+		effects_menu.add_command(label = "Apply Gaussian Filter", command = self.effect_gaussian_layer)
+		effects_menu.add_command(label = "Apply Box Blur Filter", command = self.effect_box_blur_layer)
+		effects_menu.add_command(label = "Apply Median Filter", command = self.effect_median_filter_layer)
+		effects_menu.add_command(label = "Apply Min Filter", command = self.effect_min_filter_layer)
+		effects_menu.add_command(label = "Apply Max Filter", command = self.effect_max_filter_layer)
+		effects_menu.add_command(label = "Apply Mode Filter", command = self.effect_mode_filter_layer)
+
 		self.effects_options_menu_button = Label(self.tool_bar, image = self.effects_wand_symbol, font = "bold")
 		self.effects_options_menu_button.pack(side = "left")
 		bind_popup("<Button-1>", self.effects_options_menu_button, effects_menu)
@@ -433,6 +440,39 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 	def effect_smooth_more_layer(self):
 		ToolController.effect_smooth_more_layer(self.project.selected_frame.selected_layer)
 		self.refresh()
+	def effect_gaussian_layer(self):
+		radius = simpledialog.askinteger("Gaussian Blur Filter", "Filter Radius:", parent=self)
+		ToolController.effect_gaussian_layer(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_box_blur_layer(self):
+		radius = simpledialog.askinteger("Box Blur Filter", "Filter Radius:", parent=self)
+		ToolController.effect_box_blur_layer(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_median_filter_layer(self):
+		size = simpledialog.askinteger("Median Blur Filter", "Filter Size:", parent=self)
+		ToolController.effect_median_filter_layer(self.project.selected_frame.selected_layer, size)
+		self.refresh()
+	def effect_min_filter_layer(self):
+		size = simpledialog.askinteger("Min Blur Filter", "Filter Size:", parent=self)
+		ToolController.effect_min_filter_layer(self.project.selected_frame.selected_layer, size)
+		self.refresh()
+	def effect_max_filter_layer(self):
+		size = simpledialog.askinteger("Max Blur Filter", "Filter Size:", parent=self)
+		ToolController.effect_max_filter_layer(self.project.selected_frame.selected_layer, size)
+		self.refresh()
+	def effect_mode_filter_layer(self):
+		size = simpledialog.askinteger("Mode Blur Filter", "Filter Size:", parent=self)
+		ToolController.effect_mode_filter_layer(self.project.selected_frame.selected_layer, size)
+		self.refresh()
+
+
+
+
+
+
+
+
+
 
 	def fill_selection(self):
 		layer = self.project.selected_frame.selected_layer
