@@ -16,7 +16,7 @@ from .LyfeCanvas import LyfeCanvas
 from .ToolBox import ToolBox
 from .SaveMenu import SaveMenu
 
-magnifying_glass_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x01\x85iCCPICC Profile\x00\x00x\x9c}\x91=H\xc3P\x14\x85\x8f\xa9\xd2"\x15\x07;hq\xc8P\x9d,\x88\x8a8J+\x16\xc1Bi+\xb4\xea`\xf2\xd2?h\xd2\x90\xa4\xb88\n\xae\x05\x07\x7f\x16\xab\x0e.\xce\xba:\xb8\n\x82\xe0\x0f\x88\x93\xa3\x93\xa2\x8b\x94x_Rh\x11\xe3\x85G>\xce\xbb\xe7\xe4\xbd\xfb\x00\xa1Ye\xaa\xd9;\t\xa8\x9ae\xa4\x1311\x97_\x15\xfd\xaf\x08`\x04@\x0f\xc2\x123\xf5df1\x0b\xcf\xfa\xba\xa7>\xaa\xbb(\xcf\xf2\xee\xfb\xb3\x06\x94\x82\xc9\xe8G"\xf1<\xd3\r\x8bx\x83xv\xd3\xd29\xef\x13\x87XYR\x88\xcf\x89\'\x0c: \xf1#\xd7e\x97\xdf8\x97\x1c\x16xf\xc8\xc8\xa6\xe3\xc4!b\xb1\xd4\xc5r\x17\xb3\xb2\xa1\x12\xcf\x10G\x14U\xa3|!\xe7\xb2\xc2y\x8b\xb3Z\xad\xb3\xf69\xf9\r\x83\x05m%\xc3uZ\xa3H`\tI\xa4 BF\x1d\x15Ta!J_\x8d\x14\x13i\xda\x8fy\xf8\xc3\x8e?E.\x99\\\x150r,\xa0\x06\x15\x92\xe3\x07\x7f\x83\xdf\xb35\x8b\xd3SnR0\x06\xf4\xbd\xd8\xf6\xc7\x18\xe0\xdf\x05Z\r\xdb\xfe>\xb6\xed\xd6\t\xe0{\x06\xae\xb4\x8e\xbf\xd6\x04\xe6>Iot\xb4\xc8\x110\xb8\r\\\\w4y\x0f\xb8\xdc\x01\x86\x9ft\xc9\x90\x1c\xc9GK(\x16\x81\xf73z\xa6<0t\x0b\xf4\xaf\xb9sk\xef\xe3\xf4\x01\xc8\xd2\xac\x96o\x80\x83C`\xbcD\xd9\xeb\x1e\xf7\x0et\xcf\xed\xdf\x9e\xf6\xfc~\x00 Tr\x86  \xb6\xb6\x00\x00\x00UIDATx\x9c\xdd\x93K\x12\x00 \x08B\xa5\xfb\xdf\xb9\x96\xfd\x84\xd4e,C\xec\xcdP\xb0\xa9n\\`F\x0b\x84\xa5\x8f\xc3\xf4n\x92~S\xe6\xe3\xfcZP\xd2g\x0bXU\xb2bD\x86Hf#\x90U)\xa2h\xd0#\xc4J\xf0\x12}\xa1\x19t\x97$[\xa3\xfc\x0b\xa5%\x03\t\x0b\x0c\x1bW\xf4ba\x00\x00\x00\x00IEND\xaeB`\x82'
+magnifying_glass_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x00bIDATx\x9c\xe5RA\x0e\xc0 \x08+\xfe\xff\xcf\xecDc\x18\x16\xe6u\xbd\x98\xd0\x16\xaah\xd0p\xc1\x19\x00\xacK3y\x1b\x98+\ry\x95@\r`\xbdk\xd0\xe2\x07\rN\xabd]\xaeh\x00\xcb\t>\x99s\x82\xca|\xfa\x07D$\x98\x9a\xb3\xce\xd7\xc5d\xdf\xcfj\x0b\xca\x1c\\4y=b{\xe7Mc\x00\xf0\x00\x04\xc6\x11\x1b\xcc\xca$4\x00\x00\x00\x00IEND\xaeB`\x82'
 floppy_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x00YIDATx\x9c\xbd\x93A\n\x00 \x08\x04w\xa3\xff\x7f\xb9nb\x1bDj$t\x08\xb6q\x10#\x80\x81X\xd1_Z\xf01\xb4\xa1\x07P\x82tG3\x06\xc9\x18,\x90\x0c`\x81\xf4C\xe8j\xb8Y\x03+5\xd0A\xfe7\xb8]*3}n\xb0u\x90\xda\x0c\xcb\x06e\x00\x11\xff\x8do\r&2<\t)\xe6\x84\xac\xa0\x00\x00\x00\x00IEND\xaeB`\x82'
 export_to_bytes_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x00TIDATx\x9c\xc5R\xcb\x0e\x00 \x08\xa2\xd6\xff\xff\xb2\x9d<\xf8\xc0Z[\x93#"S\x11\xe8\xc6\x00 \x84\xcf\x90i\x03\x99\x8aXm\x16\xe2+\xf4\x1b\xac\x87\x1es\x07f \x88Ih\xa3\xe1\xd9\n>\xde\xcc\xb0\x9c\xc0\x9b\xb0\xbf\xf8\x9b\x82\x8e\xcd\xbe\x158\x14\xaf\x8e\xd8\x8f\r^q\x0f\x17I\xca\t\xc4\x00\x00\x00\x00IEND\xaeB`\x82'
 to_grayscale_bytes=  b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x00\x8bIDATx\x9c\xad\x93K\x0e\xc40\x08C\xedjn\x04\xf7\xbf\x9a\xbbh'\x9f\x16JT\xd5\xd9$!<\x8cD(@HD\x80Y\xec\xaf\xdf\x94pG\xf5\x1b\xc6\xb0\xad\xaaP\xa9\x01\xdc\xec,\xd9\xd7\x8a(@\x1c\x1eK\x00\xc9s\xaf\xee\xfcM\x0b$K'7\x00yT^\x85\xb0\x1b\x9f5\xb6r\x9c'h\x0b\xa4\x80\x0cB\x12\x92\xe0\xeeq\x0bU;W-\xcd\x81b\x83\x00\xda$\x06\xe8!=\xaa|\x01\xe4r\xf7G\x07\xe5g1\xb3\xc7A\xf8\xee/\xbc\xd5\x0e\xfa38\x83C\xf0\x9e\x91\x00\x00\x00\x00IEND\xaeB`\x82"
@@ -39,8 +39,6 @@ down_carret_bytes = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x0
 layers_symbol_bytes = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x14\x00\x00\x00\x14\x08\x06\x00\x00\x00\x8d\x89\x1d\r\x00\x00\x00\x88IDATx\x9c\xdd\x94Q\x0e\xc0 \x08C\xd5\xfb\xdf\x99\xfd\x0c3\xb1\xd4\xea\xf65\x13\x13E\xf6V\x1a\xb4\x94|\xd8=\xb7F%05w\x99\xb4RE\xc1\xf1p\xa7D\x08~\x06\xb7\xfdB`\xdf\x9c\xc2&V\xfb\x126,^\x80\x87\x92[8\x90Z\x03\xc0\xba\x18/\xd9B\x92\x02\x86\xfe\xd7\x18\x000\xd6\xe4\x16\xf6\xd4\xc3\x0c\x9c\xc2\xd0G\n8\x83W\x0f\xc0?\x110U\xfa\x7f\x0f'Q\xac\xdf\x14\x0f\xa7\xb5\xd2\xc0\xab\xc76S+\x81\xb3\xfb\xde\xe3\x17\xc0\xce,\x11\xce3\xde\x16\x00\x00\x00\x00IEND\xaeB`\x82"
 folder_options_symbol_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x00dIDATx\x9c\xa5RA\x0e\xc0 \x08\x03\xb3\xff\x7f\x99\x1d\x16\x17m\xc0\x96\xd8\x0bQ\xda\xda n\x1f\xc2j\xf8\xa1g\x83\x88\x99\xb9\xf9B\xc8^\n\xe0\xb6\rh\x82qj21&`\xbc\xd4\x9c%\xa8\xc4?\x1e\x95XAIpm\x803\xda\xcej\x82\x80\xda2\x98\xb3I\xf7EM\xe0P\xdb\x06\xa9x^*\x8bT\xe2\xfa\x1b_\xdd\xf7\x10\x1a%V\x92.\x00\x00\x00\x00IEND\xaeB`\x82'
 effects_wand_symbol_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x00dIDATx\x9c\x9d\x93\xc1\x12\x00 \x04D\xe3\xff\xffY\xa7\x1aE\xbb\xd4%\x8c\xb7\xb32\x8d\xc1\x8f\xa1\xba4`y\xd4[\x0eB\xcc\x1cP7\xfa\x01\x1fyE \x9b\xb7\xec\x00\xc1\xf4\r(\x8c\x1c@\xdb.\x96L\x80\xc1\xe6k\xb7@\x15NG`\xb0\xcf\xc3\x16*\xf0\xea;\x1ci\x03\xf6"\xfb\x0ek!0\xec\xed\xfc\xb0\xdd;\x01\xa1\x94 \n\xf4#\xf2;\x00\x00\x00\x00IEND\xaeB`\x82'
-
-
 
 WIDTH = 1080
 HEIGHT = 720
@@ -195,6 +193,25 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		selection_menu.add_command(label = "Export Selection", command = self.export_selection)
 		selection_menu.add_command(label = "Export Selection as Bytes (Console)", command = self.export_selection_as_bytes)
 		selection_menu.add_command(label = "New Layer from Selection", command = self.new_layer_image_from_selection)
+		selection_menu.add_separator()
+		selection_menu.add_command(label = "Apply Blur Filter to Selection", command = self.effect_blur_selection)
+		selection_menu.add_command(label = "Apply Contour Filter to Selection", command = self.effect_contour_selection)
+		selection_menu.add_command(label = "Apply Detail Filter to Selection", command = self.effect_detail_selection)
+		selection_menu.add_command(label = "Apply Edge Enhance Filter to Selection", command = self.effect_edge_enhance_selection)
+		selection_menu.add_command(label = "Apply Edge Enhance More Filter to Selection", command = self.effect_edge_enhance_more_selection)
+		selection_menu.add_command(label = "Apply Emboss Filter to Selection", command = self.effect_emboss_selection)
+		selection_menu.add_command(label = "Apply Find Edges Filter to Selection", command = self.effect_find_edges_selection)
+		selection_menu.add_command(label = "Apply Sharpen Filter to Selection", command = self.effect_sharpen_selection)
+		selection_menu.add_command(label = "Apply Smooth Filter to Selection", command = self.effect_smooth_selection)
+		selection_menu.add_command(label = "Apply Smooth More Filter to Selection", command = self.effect_smooth_more_selection)
+		selection_menu.add_command(label = "Apply Gaussian Filter to Selection", command = self.effect_gaussian_selection)
+		selection_menu.add_command(label = "Apply Box Blur Filter to Selection", command = self.effect_box_blur_selection)
+		selection_menu.add_command(label = "Apply Median Filter to Selection", command = self.effect_median_filter_selection)
+		selection_menu.add_command(label = "Apply Min Filter to Selection", command = self.effect_min_filter_selection)
+		selection_menu.add_command(label = "Apply Max Filter to Selection", command = self.effect_max_filter_selection)
+		selection_menu.add_command(label = "Apply Mode Filter to Selection", command = self.effect_mode_filter_selection)
+
+
 		self.selections_options_menu_button = Label(self.tool_bar, image = self.selection_options_image, font = "bold")
 		self.selections_options_menu_button.pack(side = "left")
 		bind_popup("<Button-1>", self.selections_options_menu_button, selection_menu)
@@ -205,7 +222,7 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		effects_menu.add_command(label = "Apply Blur Filter", command = self.effect_blur_layer)
 		effects_menu.add_command(label = "Apply Contour Filter", command = self.effect_contour_layer)
 		effects_menu.add_command(label = "Apply Detail Filter", command = self.effect_detail_layer)
-		effects_menu.add_command(label = "Apply Edge Enhance", command = self.effect_edge_enhance_layer)
+		effects_menu.add_command(label = "Apply Edge Enhance Filter", command = self.effect_edge_enhance_layer)
 		effects_menu.add_command(label = "Apply Edge Enhance More Filter", command = self.effect_edge_enhance_more_layer)
 		effects_menu.add_command(label = "Apply Emboss Filter", command = self.effect_emboss_layer)
 		effects_menu.add_command(label = "Apply Find Edges Filter", command = self.effect_find_edges_layer)
@@ -465,12 +482,60 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		ToolController.effect_mode_filter_layer(self.project.selected_frame.selected_layer, size)
 		self.refresh()
 
-
-
-
-
-
-
+	def effect_blur_selection(self):
+		ToolController.effect_blur_selection(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_contour_selection(self):
+		ToolController.effect_contour_selection(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_detail_selection(self):
+		ToolController.effect_detail_selection(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_edge_enhance_selection(self):
+		ToolController.effect_edge_enhance_selection(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_edge_enhance_more_selection(self):
+		ToolController.effect_edge_enhance_more_selection(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_emboss_selection(self):
+		ToolController.effect_emboss_selection(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_find_edges_selection(self):
+		ToolController.effect_find_edges_selection(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_sharpen_selection(self):
+		ToolController.effect_sharpen_selection(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_smooth_selection(self):
+		ToolController.effect_smooth_selection(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_smooth_more_selection(self):
+		ToolController.effect_smooth_more_selection(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_gaussian_selection(self):
+		radius = simpledialog.askinteger("Gaussian Blur Filter", "Filter Radius:", parent=self)
+		ToolController.effect_gaussian_selection(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_box_blur_selection(self):
+		radius = simpledialog.askinteger("Box Blur Filter", "Filter Radius:", parent=self)
+		ToolController.effect_box_blur_selection(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def effect_median_filter_selection(self):
+		size = simpledialog.askinteger("Median Blur Filter", "Filter Size:", parent=self)
+		ToolController.effect_median_filter_selection(self.project.selected_frame.selected_layer, size)
+		self.refresh()
+	def effect_min_filter_selection(self):
+		size = simpledialog.askinteger("Min Blur Filter", "Filter Size:", parent=self)
+		ToolController.effect_min_filter_selection(self.project.selected_frame.selected_layer, size)
+		self.refresh()
+	def effect_max_filter_selection(self):
+		size = simpledialog.askinteger("Max Blur Filter", "Filter Size:", parent=self)
+		ToolController.effect_max_filter_selection(self.project.selected_frame.selected_layer, size)
+		self.refresh()
+	def effect_mode_filter_selection(self):
+		size = simpledialog.askinteger("Mode Blur Filter", "Filter Size:", parent=self)
+		ToolController.effect_mode_filter_selection(self.project.selected_frame.selected_layer, size)
+		self.refresh()
 
 
 
@@ -584,6 +649,10 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		image = ToolController.new_layer_image_from_selection(self.project.selected_frame.selected_layer, ToolController.start_selection, ToolController.end_selection)
 		self.project.selected_frame.new_layer_from_image(image)
 		self.refresh()
+
+	def exit(self):
+		if messagebox.askyesno("Exit?", f"Are you sure you wish to exit?\nAll unsaved work will be lost."):
+			self.destroy()
 
 
 class FrameFrame(ttk.LabelFrame):

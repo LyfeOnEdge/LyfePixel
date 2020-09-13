@@ -1,4 +1,4 @@
-from tkinter import StringVar, Frame, Toplevel, Label, Button, PanedWindow, colorchooser, Scale, Menu, ttk
+from tkinter import StringVar, Frame, Toplevel, Label, Button, PanedWindow, colorchooser, Scale, Menu, messagebox, ttk
 from .BaseWindow import BaseWindow
 from .TopBar import TopBar
 from .canvas import PixelCanvas
@@ -42,6 +42,8 @@ class PalletWindow(ttk.Frame):
 		self.window = self._nametowidget(self.winfo_parent())
 		self.window.bind("<Escape>", self.exit)
 		self.window.title("LyfePixel")
+		self.window.protocol("WM_DELETE_WINDOW", self.exit)
+
 		self.controller.configure_toplevel(self.window)
 		self.window.overrideredirect(0)
 		self.place(relwidth = 1, relheight = 1)
@@ -57,7 +59,6 @@ class PalletWindow(ttk.Frame):
 		menubar.add_separator()
 		menubar.add_command(label="Help", command=lambda: HelpWindow(self.controller))
 		menubar.add_separator()
-		menubar.add_command(label="Exit", command= self.exit)
 		# display the menu
 		self.window.config(menu=menubar)
 		
@@ -170,4 +171,6 @@ class PalletWindow(ttk.Frame):
 		self.update()
 
 	def open_start_window(self): StartWindow(self.controller)
-	def exit(self): self.window.destroy()
+	def exit(self, *args):
+		if messagebox.askyesno("Exit?", "Are you sure you wish to exit LyfePixel?\nAll canvases will be closed and\nunsaved work will be lost."):
+			self.window.destroy()

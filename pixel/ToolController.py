@@ -151,16 +151,14 @@ class Controller:
 		self._color = tuple([int(v) for v in color])
 		print(f"Color set to {self._color}")
 
-	def get_color(self):
-		return self._color
+	def get_color(self): return self._color
 
 	def set_tool(self, tool):
 		print(f"Set Tool - {tool}")
 		self.tool = tool
 		self.drag = TOOLS[self.tool]["drag"]
 
-	def get_tool(self, tool):
-		return self.tool
+	def get_tool(self, tool): return self.tool
 
 	def draw(self, layer, id, radius = 1):
 		x, y = (int(v) for v in id.split("x"))
@@ -169,8 +167,7 @@ class Controller:
 		draw.point((x, y), fill = tuple(self._color))
 		return image
 
-	def start_drag(self, layer, start_id):
-		self.start_id = start_id
+	def start_drag(self, layer, start_id): self.start_id = start_id
 
 	def end_line(self, layer, end_id):
 		self.end_id = end_id
@@ -422,89 +419,54 @@ class Controller:
 		
 		self.select_box(layer, self.start_selection, self.end_selection, mode = OVERWRITE_SELECTION)
 		return image
-
-	def effect_blur_layer(self, layer):
+		
+	def apply_effect_selection(self, layer, effect):
 		image = layer.export_image()
-		image = image.filter(ImageFilter.BLUR)
+		x0, y0 = (int(v) for v in self.start_selection.split("x"))
+		x1, y1 = (int(v) for v in self.end_selection.split("x"))
+		crop = image.crop((min(x0, x1), min(y0, y1), max(x0, x1) + 1, max(y0, y1) + 1))
+		crop = crop.filter(effect)
+		image.paste(crop, (min(x0, x1), min(y0, y1)))
 		layer.load_image(image)
 
-	def effect_contour_layer(self, layer):
+	def effect_blur_selection(self, layer): self.apply_effect_selection(layer, ImageFilter.BLUR)
+	def effect_contour_selection(self, layer): self.apply_effect_selection(layer, ImageFilter.CONTOUR)
+	def effect_detail_selection(self, layer): self.apply_effect_selection(layer, ImageFilter.DETAIL)
+	def effect_edge_enhance_selection(self, layer): self.apply_effect_selection(layer, ImageFilter.EDGE_ENHANCE)
+	def effect_edge_enhance_more_selection(self, layer): self.apply_effect_selection(layer, ImageFilter.EDGE_ENHANCE_MORE)
+	def effect_emboss_selection(self, layer): self.apply_effect_selection(layer, ImageFilter.EMBOSS)
+	def effect_find_edges_selection(self, layer): self.apply_effect_selection(layer, ImageFilter.FIND_EDGES)
+	def effect_sharpen_selection(self, layer): self.apply_effect_selection(layer, ImageFilter.SHARPEN)
+	def effect_smooth_selection(self, layer): self.apply_effect_selection(layer, ImageFilter.SMOOTH)
+	def effect_smooth_more_selection(self, layer): self.apply_effect_selection(layer, ImageFilter.SMOOTH_MORE)
+	def effect_gaussian_selection(self, layer, radius = 2): self.apply_effect_selection(layer, ImageFilter.GaussianBlur(radius = radius))
+	def effect_box_blur_selection(self, layer, radius = 2): self.apply_effect_selection(layer, ImageFilter.BoxBlur(radius = radius))
+	def effect_median_filter_selection(self, layer, size = 3): self.apply_effect_selection(layer, ImageFilter.MedianFilter(size=size))
+	def effect_min_filter_selection(self, layer, size = 3): self.apply_effect_selection(layer, ImageFilter.MinFilter(size=size))
+	def effect_max_filter_selection(self, layer, size = 3): self.apply_effect_selection(layer, ImageFilter.MaxFilter(size=size))
+	def effect_mode_filter_selection(self, layer, size = 3): self.apply_effect_selection(layer, ImageFilter.ModeFilter(size=size))
+
+	def apply_effect(self, layer, effect):
 		image = layer.export_image()
-		image = image.filter(ImageFilter.CONTOUR)
+		image = image.filter(effect)
 		layer.load_image(image)
 
-	def effect_detail_layer(self, layer):
-		image = layer.export_image()
-		image = image.filter(ImageFilter.DETAIL)
-		layer.load_image(image)
-
-	def effect_edge_enhance_layer(self, layer):
-		image = layer.export_image()
-		image = image.filter(ImageFilter.EDGE_ENHANCE)
-		layer.load_image(image)
-
-	def effect_edge_enhance_more_layer(self, layer):
-		image = layer.export_image()
-		image = image.filter(ImageFilter.EDGE_ENHANCE_MORE)
-		layer.load_image(image)
-
-	def effect_emboss_layer(self, layer):
-		image = layer.export_image()
-		image = image.filter(ImageFilter.EMBOSS)
-		layer.load_image(image)
-
-	def effect_find_edges_layer(self, layer):
-		image = layer.export_image()
-		image = image.filter(ImageFilter.FIND_EDGES)
-		layer.load_image(image)
-
-	def effect_sharpen_layer(self, layer):
-		image = layer.export_image()
-		image = image.filter(ImageFilter.SHARPEN)
-		layer.load_image(image)
-
-	def effect_smooth_layer(self, layer):
-		image = layer.export_image()
-		image = image.filter(ImageFilter.SMOOTH)
-		layer.load_image(image)
-
-	def effect_smooth_more_layer(self, layer):
-		image = layer.export_image()
-		image = image.filter(ImageFilter.SMOOTH_MORE)
-		layer.load_image(image)
-
-
-
-
-	def effect_gaussian_layer(self, layer, radius = 2):
-		image = layer.export_image()
-		image = image.filter(ImageFilter.GaussianBlur(radius = radius))
-		layer.load_image(image)
-
-	def effect_box_blur_layer(self, layer, radius = 2):
-		image = layer.export_image()
-		image = image.filter(ImageFilter.BoxBlur(radius = radius))
-		layer.load_image(image)
-
-	def effect_median_filter_layer(self, layer, size=3):
-		image = layer.export_image()
-		image = image.filter(ImageFilter.MedianFilter(size=size))
-		layer.load_image(image)
-
-	def effect_min_filter_layer(self, layer, size=3):
-		image = layer.export_image()
-		image = image.filter(ImageFilter.MinFilter(size=size))
-		layer.load_image(image)
-
-	def effect_max_filter_layer(self, layer, size=3):
-		image = layer.export_image()
-		image = image.filter(ImageFilter.MaxFilter(size=size))
-		layer.load_image(image)
-
-	def effect_mode_filter_layer(self, layer, size=3):
-		image = layer.export_image()
-		image = image.filter(ImageFilter.ModeFilter(size=size))
-		layer.load_image(image)
+	def effect_blur_layer(self, layer):	self.apply_effect(layer, ImageFilter.BLUR)
+	def effect_contour_layer(self, layer): self.apply_effect(layer, ImageFilter.CONTOUR)
+	def effect_detail_layer(self, layer): self.apply_effect(layer, ImageFilter.DETAIL)
+	def effect_edge_enhance_layer(self, layer): self.apply_effect(layer, ImageFilter.EDGE_ENHANCE)
+	def effect_edge_enhance_more_layer(self, layer): self.apply_effect(layer, ImageFilter.EDGE_ENHANCE_MORE)
+	def effect_emboss_layer(self, layer): self.apply_effect(layer, ImageFilter.EMBOSS)
+	def effect_find_edges_layer(self, layer): self.apply_effect(layer, ImageFilter.FIND_EDGES)
+	def effect_sharpen_layer(self, layer): self.apply_effect(layer, ImageFilter.SHARPEN)
+	def effect_smooth_layer(self, layer): self.apply_effect(layer, ImageFilter.SMOOTH)
+	def effect_smooth_more_layer(self, layer): self.apply_effect(layer, ImageFilter.SMOOTH_MORE)
+	def effect_gaussian_layer(self, layer, radius = 2): self.apply_effect(layer, ImageFilter.GaussianBlur(radius = radius))
+	def effect_box_blur_layer(self, layer, radius = 2): self.apply_effect(layer, ImageFilter.BoxBlur(radius = radius))
+	def effect_median_filter_layer(self, layer, size=3): self.apply_effect(layer, ImageFilter.MedianFilter(size=size))
+	def effect_min_filter_layer(self, layer, size=3): self.apply_effect(layer, ImageFilter.MinFilter(size=size))
+	def effect_max_filter_layer(self, layer, size=3): self.apply_effect(layer, ImageFilter.MaxFilter(size=size))
+	def effect_mode_filter_layer(self, layer, size=3): self.apply_effect(layer, ImageFilter.ModeFilter(size=size))
 
 
 	# def effect_unsharp_mask_layer(self, layer, radius=2, percent=150, threshold=3):
