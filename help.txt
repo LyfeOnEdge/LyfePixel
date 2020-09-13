@@ -7,3 +7,5 @@
 - Middle-clicking on a canvas acts as an eyedropper.
 
 - The slider in the pallet window adjusts tool transparency.
+
+- Use the selection tool (dashed rectangle) to highlight an area, you can use the move tool (dashed rectangle with arrows) to move your selection or apply an effect from the dropdown menu above the canvas.

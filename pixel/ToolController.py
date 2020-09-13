@@ -86,10 +86,10 @@ TOOLS = {
 		"drag" : False,
 	},
 
-	EYEDROPPER : {
-		"text" : "Eyedropper",
-		"drag" : False,
-	},
+	# EYEDROPPER : {
+	# 	"text" : "Eyedropper",
+	# 	"drag" : False,
+	# },
 	ERASE : {
 		"text" : "Eraser",
 		"drag" : False,

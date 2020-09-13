@@ -102,7 +102,7 @@ class ToolBox(Frame):
 			TOOLCONST.BUCKET : self.bucket_symbol,
 			TOOLCONST.DRAW_ROW : self.leftrightarrow_symbol,
 			TOOLCONST.DRAW_COLUMN : self.updownarrow_symbol,
-			TOOLCONST.EYEDROPPER : self.eyedropper_symbol,
+			# TOOLCONST.EYEDROPPER : self.eyedropper_symbol,
 			TOOLCONST.ERASE : self.eraser_symbol,
 		}
 
