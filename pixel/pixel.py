@@ -47,6 +47,8 @@ class LyfeLayer:
 		self.image = None
 		self.collapsed = False
 		self.selection = []
+		self.start_selection = None
+		self.end_selection = None
 
 	def set_id(self, id): self.id = id
 	def get_ints_from_id(self, id): return (int(v) for v in id.split("x"))

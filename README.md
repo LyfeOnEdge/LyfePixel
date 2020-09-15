@@ -1,4 +1,9 @@
 # LyfePixel
+aka LIMP
+- Lyfes
+- Insanely 
+- Multipurpose
+- Picture-thingy
 
 ## A basic pixel art / pixel gif maker written in Tk / PIL / Python
 

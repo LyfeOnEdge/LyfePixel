@@ -4,8 +4,11 @@ from PIL import Image, ImageTk
 from pixel.PalletWindow import PalletWindow
 from pixel.ProjectWindow import ProjectWindow
 from pixel.StartWindow import StartWindow
+from pixel.ClipBoard import ClipBoard, ClipboardWindow
 from pixel.file_management import load_tk_image_from_bytes_array, load_tk_image_object_from_bytes_array
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+
 
 WIDTH = 150
 HEIGHT = 250
@@ -28,9 +31,11 @@ class CanvasController:
 	def __init__(self, devmode = False):
 		self.devmode = devmode
 		self.canvases = []
-
+		self.clipboard = ClipBoard
+		
 	def start_mainloop(self):
 		self.root = self.PalletWindow = PalletWindow(self)
+		self.ClipboardWindow = ClipboardWindow(self)
 		# self.StartWindow = StartWindow(self)
 		self.PalletWindow.mainloop()
 

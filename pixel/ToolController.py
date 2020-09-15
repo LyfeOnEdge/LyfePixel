@@ -1,7 +1,7 @@
 from .colormath import hex_to_rgb
 from .file_management import load_tk_image_from_bytes_array
 from PIL import Image, ImageTk, ImageOps, ImageDraw, ImageFilter
-
+from .ClipBoard import ClipBoard
 
 DRAW = "draw"
 DRAW_ROW = "vertical"
@@ -16,6 +16,7 @@ SELECT_BOX = "selectbox"
 MOVE_SELECTION = "moveselect"
 ELLIPSE = "ellipse"
 FILLED_ELLIPSE = "filledellipse"
+PASTE = "paste"
 
 OVERWRITE_SELECTION = "overwriteselection"
 EXTEND_SELECTIION = "extendselection"
@@ -37,6 +38,7 @@ class constants:
 		self.OVERWRITE_SELECTION = OVERWRITE_SELECTION
 		self.EXTEND_SELECTIION = EXTEND_SELECTIION
 		self.MOVE_SELECTION = MOVE_SELECTION
+		self.PASTE = PASTE
 
 TOOLCONST = constants()
 
@@ -101,13 +103,18 @@ TOOLS = {
 	MOVE_SELECTION : {
 		"text" : "Move Selection",
 		"drag" : True,
+	},
+	PASTE : {
+		"text" : "Paste",
+		"drag" : False,
 	}
 }
 
 class Controller:
-	def __init__(self):
+	def __init__(self, clipboard):
 		self.tool = DRAW
 		self.drag = False
+		self.clipboard = clipboard
 		self._color = None
 		self.start_dict = {
 			ERASE: self.erase,
@@ -123,6 +130,7 @@ class Controller:
 			MOVE_SELECTION : self.start_drag,
 			ELLIPSE : self.start_drag,
 			FILLED_ELLIPSE : self.start_drag,
+			PASTE : self.paste,
 		}
 		self.drag_dict = {
 			ERASE: self.erase,
@@ -131,6 +139,7 @@ class Controller:
 			DRAW_COLUMN : self.draw_column,
 			BUCKET : self.flood_fill,
 			EYEDROPPER : self.eyedropper,
+			PASTE : self.paste
 		}
 		self.end_dict = {
 			LINE : self.end_line,
@@ -144,9 +153,7 @@ class Controller:
 		self.set_color((0,0,0,255))
 		self.start_id = None
 		self.end_id = None
-		self.start_selection = None
-		self.end_selection = None
-
+	
 	def set_color(self, color):
 		self._color = tuple([int(v) for v in color])
 		print(f"Color set to {self._color}")
@@ -226,19 +233,13 @@ class Controller:
 		self.start_selection = self.start_id
 		return self.select_box(layer, self.start_selection, self.end_selection)
 
-	def select_box(self, layer, start_id, end_id, mode = OVERWRITE_SELECTION):
-		x1, y1 = (int(v) for v in start_id.split("x"))
-		x2, y2 = (int(v) for v in end_id.split("x"))
-		ids = []
-		for x in range(max(0, min(x1, x2)), min(max(x1, x2), layer.width - 1) + 1):
-			for y in range(max(0, min(y1, y2)), min(max(y1, y2), layer.height - 1) + 1):
-				ids.append(f"{x}x{y}")
-		if mode == OVERWRITE_SELECTION:
-			layer.selection = ids
-		elif mode == EXTEND_SELECTIION:
-			for id in ids:
-				if id not in layer.selection:
-					layer.selection.append(id)
+	def select_box(self, layer, start_id, end_id):
+		x0, y0 = (int(v) for v in start_id.split("x"))
+		x1, y1 = (int(v) for v in end_id.split("x"))
+		x0, x1 = min(x0, x1), max(x0, x1)
+		y0, y1 = min(y0, y1), max(y0, y1)
+		layer.start_selection = f"{x0}x{y0}"
+		layer.end_selection = f"{x1}x{y1}"
 		return layer.image #send layers last exported image since no data has changed but canvas needs a rewrite
 
 	def end_ellipse(self, layer, end_id):
@@ -391,13 +392,13 @@ class Controller:
 
 	def move_selection(self, layer, start_move_id, end_move_id):
 		image = layer.export_image()
-		x0, y0 = (int(v) for v in self.start_selection.split("x"))
-		x1, y1 = (int(v) for v in self.end_selection.split("x"))
+		x0, y0 = (int(v) for v in start_move_id.split("x"))
+		x1, y1 = (int(v) for v in end_move_id.split("x"))
 		x0, x1 = min(x0, x1), max(x0, x1)
 		y0, y1 = min(y0, y1), max(y0, y1)
 		selection_width = x1 - x0
 		selection_height = y1 - y0
-		crop = self.crop_to_selection(layer, self.start_selection, self.end_selection).convert("RGBA")
+		crop = self.crop_to_selection(layer, layer.start_selection, layer.end_selection).convert("RGBA")
 		empty_cover = Image.new("RGBA",(selection_width + 1, selection_height + 1), (0,0,0,0))
 		image.paste(empty_cover, (x0, y0, x1 + 1, y1 + 1))
 		x2, y2 = (int(v) for v in start_move_id.split("x"))
@@ -414,16 +415,41 @@ class Controller:
 		if new_selection_end_x > layer.width - 1: new_selection_end_x = layer.width - 1
 		if new_selection_start_y < 0: new_selection_start_y = 0
 		if new_selection_end_y > layer.height - 1: new_selection_end_y = layer.height - 1
-		self.start_selection = f"{new_selection_start_x}x{new_selection_start_y}"
-		self.end_selection = f"{new_selection_end_x}x{new_selection_end_y}"
-		
-		self.select_box(layer, self.start_selection, self.end_selection, mode = OVERWRITE_SELECTION)
+		layer.start_selection = f"{new_selection_start_x}x{new_selection_start_y}"
+		layer.end_selection = f"{new_selection_end_x}x{new_selection_end_y}"
+		self.select_box(layer, layer.start_selection, layer.end_selection)
 		return image
-		
+
+	def copy_selection_to_clipboard(self, layer):
+		crop = self.crop_to_selection(layer, layer.start_selection, layer.end_selection).convert("RGBA")
+		self.clipboard.copy_item(crop)
+
+	def cut_selection_to_clipboard(self, layer):
+		crop = self.crop_to_selection(layer, layer.start_selection, layer.end_selection).convert("RGBA")
+		self.clipboard.copy_item(crop)
+		image = layer.image
+		x0, y0 = (int(v) for v in layer.start_selection.split("x"))
+		x1, y1 = (int(v) for v in layer.end_selection.split("x"))
+		x0, x1 = min(x0, x1), max(x0, x1)
+		y0, y1 = min(y0, y1), max(y0, y1)
+		selection_width = x1 - x0
+		selection_height = y1 - y0
+		empty_cover = Image.new("RGBA",(selection_width + 1, selection_height + 1), (0,0,0,0))
+		image.paste(empty_cover, (x0, y0, x1 + 1, y1 + 1))
+		layer.load_image(image)
+
+	def paste(self, layer, id):
+		image = layer.export_image()
+		x, y = (int(v) for v in id.split("x"))
+		pasteimage = self.clipboard.selected_layer.export_image()
+		image.paste(pasteimage, (x, y), pasteimage)
+		layer.load_image(image)
+		return image
+
 	def apply_effect_selection(self, layer, effect):
 		image = layer.export_image()
-		x0, y0 = (int(v) for v in self.start_selection.split("x"))
-		x1, y1 = (int(v) for v in self.end_selection.split("x"))
+		x0, y0 = (int(v) for v in layer.start_selection.split("x"))
+		x1, y1 = (int(v) for v in layer.end_selection.split("x"))
 		crop = image.crop((min(x0, x1), min(y0, y1), max(x0, x1) + 1, max(y0, y1) + 1))
 		crop = crop.filter(effect)
 		image.paste(crop, (min(x0, x1), min(y0, y1)))
@@ -505,7 +531,7 @@ class Controller:
 # ImageOps.solarize(image, threshold=128)
 
 
-ToolController = Controller()
+ToolController = Controller(ClipBoard)
 
 def make_checkerboard(width, height, repeat = 14, color_1 = (127,127,127,255), color_2 = (64,64,64,255)):
 	image = Image.new("RGBA",(width, height), (0,0,0,0))

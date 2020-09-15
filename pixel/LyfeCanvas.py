@@ -80,8 +80,15 @@ class LyfeCanvas(Frame):
 		
 		for i in range(1, layer.width): self.canvas.create_line(i * self.pixel_width, 0, i * self.pixel_width, self.canvas_height - 1, fill="#BBBBBB", width = 2)
 		for i in range(1, layer.height): self.canvas.create_line(0, i * self.pixel_width, self.canvas_width - 1, i * self.pixel_width, fill="#BBBBBB", width = 2)
-		if layer.selection:
-			for id in layer.selection: self.draw_pixel(id)
+		if layer.start_selection and layer.end_selection:
+			x0, y0 = (int(v) for v in layer.start_selection.split("x"))
+			x1, y1 = (int(v) for v in layer.end_selection.split("x"))
+			x0, x1 = min(x0, x1), max(x0, x1)
+			y0, y1 = min(y0, y1), max(y0, y1)
+			print(x0,y0,x1,y1)
+			for x in range(x0, x1 + 1):
+				for y in range(y0, y1 + 1):
+					self.draw_pixel(f"{x}x{y}")
 
 	#Uses stored pixel widths and heights for calculation
 	def draw_pixel(self, id):
