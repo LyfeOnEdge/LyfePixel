@@ -1,6 +1,9 @@
 from .colormath import rgb_to_hex, hex_to_rgba
 from PIL import Image, ImageTk, ImageOps, ImageDraw
 from numpy import asarray, zeros, uint8
+from numpy import int as npint
+from numpy import abs as npabs
+from collections import deque
 import io
 
 def crop(layer,start_id,end_id):
@@ -33,12 +36,17 @@ def rotate_layer_right(layer):
 	layer.load_image(layer.export_image().rotate(-90).resize((layer.width, layer.height), Image.BOX))
 
 
+class HistoryObject:
+	__slots__ = ["id", "image"]
+	def __init__(self, id, image):
+		self.id = str(id)
+		self.image = image
 
-
-
+	def __str__(self): return self.id
+	def __repr__(self): return self.id
 
 class LyfeLayer:
-	def __init__(self, id, width, height, data = None):
+	def __init__(self, id, width, height):
 		self.id = id
 		self.width = width
 		self.height = height
@@ -49,6 +57,33 @@ class LyfeLayer:
 		self.selection = []
 		self.start_selection = None
 		self.end_selection = None
+		self.history = deque()
+		self.history_index = 0
+		self.export_image()
+		self.history.append(HistoryObject("Start",self.image.copy()))
+		self.history_uid = 0
+
+	def get_uid(self):
+		id = self.history_uid
+		self.history_uid += 1
+		return id
+
+	def add_history(self, id = ""):
+		id = id if id else self.get_uid()
+		while self.history_index < len(self.history) - 1: self.history.pop() #Clear old timeline
+		self.history.append(HistoryObject(id,self.image.copy()))
+		self.history_index = len(self.history) - 1
+		self.current_history_set = False
+		# print(f"History - {self.history}")
+
+	def undo(self): 
+		if self.history_index > 0: self.history_index -= 1
+		print(f"Showing History {self.history[self.history_index].id}")
+		self.load_image(self.history[self.history_index].image)
+	def redo(self): 
+		if self.history_index == len(self.history) - 1: return
+		self.history_index += 1
+		self.load_image(self.history[self.history_index].image)
 
 	def set_id(self, id): self.id = id
 	def get_ints_from_id(self, id): return (int(v) for v in id.split("x"))
@@ -56,7 +91,9 @@ class LyfeLayer:
 		l = LyfeLayer(self.id, self.width, self.height)
 		for y in range(self.height):
 			for x in range(self.width):
-				l.array[y][x] = self.array[y][x] 
+				l.array[y][x] = self.array[y][x]
+		l.export_image()
+		l.add_history()
 		return l
 
 	def set_pixel_color(self, id, color):
@@ -94,13 +131,28 @@ class LyfeLayer:
 	def load_image(self, image):
 		image = image.resize((self.width, self.height), Image.BOX)
 		self.load_array(asarray(image))
-	def flip_vertical(self): flip_layer_vertical(self)
-	def flip_horizontal(self): flip_layer_horizontal(self)
-	def convert_layer_to_grayscale(self): convert_layer_to_grayscale(self)
-	def invert(self): invert_layer(self)
-	def rotate_left(self): rotate_layer_left(self)
-	def rotate_right(self): rotate_layer_right(self)
-	def flood_fill_layer(self, xy, color): flood_fill_layer(self, xy, color)
+
+	def flip_vertical(self):
+		self.add_history()
+		flip_layer_vertical(self)
+	def flip_horizontal(self):
+		self.add_history()
+		flip_layer_horizontal(self)
+	def convert_layer_to_grayscale(self):
+		self.add_history()
+		convert_layer_to_grayscale(self)
+	def invert(self):
+		self.add_history()
+		invert_layer(self)
+	def rotate_left(self):
+		self.add_history()
+		rotate_layer_left(self)
+	def rotate_right(self):
+		self.add_history()
+		rotate_layer_right(self)
+	def flood_fill_layer(self, xy, color):
+		self.add_history()
+		flood_fill_layer(self, xy, color)
 
 class LyfeFrame:
 	def __init__(self, id, width, height):
@@ -134,6 +186,7 @@ class LyfeFrame:
 	def new_layer_from_image(self, tkimage):
 		l = self.new_layer()
 		l.load_image(tkimage)
+		l.add_history()
 
 	def del_layer(self, layer):
 		self.layers.remove(layer)
@@ -146,6 +199,7 @@ class LyfeFrame:
 		l = self.new_layer()
 		l.load_image(layer.export_image())
 		l.set_id(f"Copy of {id}")
+		l.add_history()
 
 	def get_layers(self):
 		for layer in self.layers:

@@ -29,6 +29,9 @@ selection_options_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x14\
 layers_symbol_bytes = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x14\x00\x00\x00\x14\x08\x06\x00\x00\x00\x8d\x89\x1d\r\x00\x00\x00\x88IDATx\x9c\xdd\x94Q\x0e\xc0 \x08C\xd5\xfb\xdf\x99\xfd\x0c3\xb1\xd4\xea\xf65\x13\x13E\xf6V\x1a\xb4\x94|\xd8=\xb7F%05w\x99\xb4RE\xc1\xf1p\xa7D\x08~\x06\xb7\xfdB`\xdf\x9c\xc2&V\xfb\x126,^\x80\x87\x92[8\x90Z\x03\xc0\xba\x18/\xd9B\x92\x02\x86\xfe\xd7\x18\x000\xd6\xe4\x16\xf6\xd4\xc3\x0c\x9c\xc2\xd0G\n8\x83W\x0f\xc0?\x110U\xfa\x7f\x0f'Q\xac\xdf\x14\x0f\xa7\xb5\xd2\xc0\xab\xc76S+\x81\xb3\xfb\xde\xe3\x17\xc0\xce,\x11\xce3\xde\x16\x00\x00\x00\x00IEND\xaeB`\x82"
 folder_options_symbol_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x00dIDATx\x9c\xa5RA\x0e\xc0 \x08\x03\xb3\xff\x7f\x99\x1d\x16\x17m\xc0\x96\xd8\x0bQ\xda\xda n\x1f\xc2j\xf8\xa1g\x83\x88\x99\xb9\xf9B\xc8^\n\xe0\xb6\rh\x82qj21&`\xbc\xd4\x9c%\xa8\xc4?\x1e\x95XAIpm\x803\xda\xcej\x82\x80\xda2\x98\xb3I\xf7EM\xe0P\xdb\x06\xa9x^*\x8bT\xe2\xfa\x1b_\xdd\xf7\x10\x1a%V\x92.\x00\x00\x00\x00IEND\xaeB`\x82'
 effects_wand_symbol_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00\x10\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x00dIDATx\x9c\x9d\x93\xc1\x12\x00 \x04D\xe3\xff\xffY\xa7\x1aE\xbb\xd4%\x8c\xb7\xb32\x8d\xc1\x8f\xa1\xba4`y\xd4[\x0eB\xcc\x1cP7\xfa\x01\x1fyE \x9b\xb7\xec\x00\xc1\xf4\r(\x8c\x1c@\xdb.\x96L\x80\xc1\xe6k\xb7@\x15NG`\xb0\xcf\xc3\x16*\xf0\xea;\x1ci\x03\xf6"\xfb\x0ek!0\xec\xed\xfc\xb0\xdd;\x01\xa1\x94 \n\xf4#\xf2;\x00\x00\x00\x00IEND\xaeB`\x82'
+copy_options_symbol_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x14\x00\x00\x00\x14\x08\x06\x00\x00\x00\x8d\x89\x1d\r\x00\x00\x00\x81IDATx\x9c\xb5\x94Q\x0e\xc0 \x08C\xcb\xe2\xfd\xaf\xcc\xbefP\x11jd\xfd2b\xca\x93\x00\x02@\x11K\x92\xf8\xa0\x87x\x93%\\\xb2\xab9GF\x14)C\xf8\x19Q\xa4\x8c\xe1\x91i#\xccf\x93\xb0\x14,\xe1IB\xa8wI\xc4\xed}\x8fW\x10\x02\xa6[\x98\x1af\xb2\xf4ZE\xd8uC\xe8\x0e\xc2\xaf\x84G3\xbbS9!\xa3\xacO\x07\xdd\x12.cY9z\np;n\xf7]o\x03\xc9\r\xe1\xbc\x98\x05\x00^\x98\t\x1e\x18"\xcb\xe9\x0c\x00\x00\x00\x00IEND\xaeB`\x82'
+undo_symbol_bytes = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x14\x00\x00\x00\x14\x08\x06\x00\x00\x00\x8d\x89\x1d\r\x00\x00\x00jIDATx\x9c\xed\xd21\x0e\xc0 \x0c\x03@\x87\xff\xff\x99n\x15DN\x130\x03C=\xd2\xe8b*\x00\x9e\x1e\x9c\xa7i'1\x06J\x98\x07e\x0c\x00l\x11\xb3\xca\xc0N\xb3\x10^m\x98\xc2\xe3\x81GY\x0b\xb6x\x9ak\xd1\x87\x8fF~nZ\xe2\x9fM\x05e\xf0\x8b\xb2\x87]E\xc3Mj\xc6+\x1bk(\xe5DC \xf9\x87R~\xf0B\xf0\x01\xe9\xd5\r!*\x08\x90\x91\x00\x00\x00\x00IEND\xaeB`\x82"
+redo_symbol_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x14\x00\x00\x00\x14\x08\x06\x00\x00\x00\x8d\x89\x1d\r\x00\x00\x00cIDATx\x9c\xed\xd2\xb1\x0e\x80@\x08\x03\xd0b\xfc\xff_>\'\xd4\x0b\x8dr\xd0\xc1\xc1\x8e\xa4y0\x00\xd43\xd8pk\x80\x14\xed\x82\x01U\x80\x13j\x95+\x1ebo`\x16\xbaD\x15\xe4\x1e\x03\x19\x96\xe9\x19\x00\xec\x99R"g\xef\x0e\x0eVX\xc1\x80\xfe\xdb\x84\xc5>\xa8^\x17\xa2z\xec\t\x94]\xe7\xa04?\xf8A\xf0\x00\xc1\x1f\r$\x92}T\x8b\x00\x00\x00\x00IEND\xaeB`\x82'
 
 WIDTH = 1080
 HEIGHT = 720
@@ -77,6 +80,9 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		self.layers_symbol_image = load_tk_image_from_bytes_array(layers_symbol_bytes)
 		self.folder_options_symbol = load_tk_image_from_bytes_array(folder_options_symbol_bytes)
 		self.effects_wand_symbol = load_tk_image_from_bytes_array(effects_wand_symbol_bytes)
+		self.copy_options_symbol = load_tk_image_from_bytes_array(copy_options_symbol_bytes)
+		self.undo_symbol = load_tk_image_from_bytes_array(undo_symbol_bytes)
+		self.redo_symbol = load_tk_image_from_bytes_array(redo_symbol_bytes)
 
 		self.drawtips_references = []
 		self.project = PixelProject(self.width, self.height)
@@ -123,7 +129,6 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		panes2.pack(fill = "both", expand = True, padx = 4, pady = (0,4))
 		panes2.config(borderwidth = 0)
 
-		
 		self.gif_view = LayerViewer(self.project, self.width, self.height, panes2)
 		self.gif_view.pack(fill = "both", expand = True)
 		panes2.add(self.gif_view)
@@ -142,7 +147,6 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 			(self.rotate_left_image, self.rotate_left),
 			(self.rotate_right_image, self.rotate_right),
 		]
-
 		self.tool_bar = ToolBar(tool_buttons, self.right_side_frame)
 		self.tool_bar.pack(side = "top", fill = "x")
 
@@ -152,7 +156,7 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		layer_menu.add_command(label = "Export Current Layer", command = self.save)
 		layer_menu.add_command(label = "Export Current Layer as Bytes (Console)", command = self.export_selected_layer_as_bytes)
 		layer_menu.add_command(label = "Delete Current Layer", command = self.delete_selected_layer)
-		layer_menu.add_command(label = "Copy Current Layer", command = self.copy_selected_layer)
+		layer_menu.add_command(label = "Duplicate Current Layer", command = self.copy_selected_layer)
 		layer_menu.add_command(label = "Promote Current Layer", command = self.promote_selected_layer)
 		layer_menu.add_command(label = "Demote Current Layer", command = self.demote_selected_layer)
 		layer_menu.add_command(label = "Merge Layer Down", command = self.merge_selected_layer_down)
@@ -161,20 +165,15 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		layer_menu.add_command(label = "Export Current Frame", command = self.save_selected_frame)
 		layer_menu.add_command(label = "Export Current Frame as Bytes (Console)", command = self.export_selected_frame_as_bytes)
 		layer_menu.add_command(label = "Delete Current Frame", command = self.delete_selected_frame)
-		layer_menu.add_command(label = "Copy Current Frame", command = self.copy_selected_frame)
+		layer_menu.add_command(label = "Duplicate Current Frame", command = self.copy_selected_frame)
 		layer_menu.add_command(label = "Promote Current Frame", command = self.promote_selected_frame)
 		layer_menu.add_command(label = "Demote Current Frame", command = self.demote_selected_frame)
 		layer_menu.add_command(label = "New Layer in Current Frame", command = self.new_layer_in_selected_frame)
 		layer_menu.add_command(label = "New Layer from Image in Current Frame", command = self.new_layer_from_image_in_selected_frame)
-		
 		self.layer_options_menu_button = Label(self.tool_bar, image = self.layers_symbol_image, font = "bold")
 		self.layer_options_menu_button.pack(side = "left")
 		bind_popup("<Button-1>", self.layer_options_menu_button, layer_menu)
 
-		# self.separator = Frame(self.tool_bar, background = "black")
-		# self.separator.pack(side = "left", fill = "y", expand = False, pady = 2, padx = 4)
-
-		# create a popup menu
 		selection_menu = Menu(self, tearoff=0)
 		selection_menu.add_command(label = "Flood Fill Selection", command = self.fill_selection)
 		selection_menu.add_command(label = "Flip Selection Vertical", command = self.flip_selection_vertical)
@@ -203,14 +202,10 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		selection_menu.add_command(label = "Apply Min Filter to Selection", command = self.effect_min_filter_selection)
 		selection_menu.add_command(label = "Apply Max Filter to Selection", command = self.effect_max_filter_selection)
 		selection_menu.add_command(label = "Apply Mode Filter to Selection", command = self.effect_mode_filter_selection)
-
-
 		self.selections_options_menu_button = Label(self.tool_bar, image = self.selection_options_image, font = "bold")
 		self.selections_options_menu_button.pack(side = "left")
 		bind_popup("<Button-1>", self.selections_options_menu_button, selection_menu)
 
-
-		# create a popup menu
 		effects_menu = Menu(self, tearoff=0)
 		effects_menu.add_command(label = "Apply Blur Filter", command = self.effect_blur_layer)
 		effects_menu.add_command(label = "Apply Contour Filter", command = self.effect_contour_layer)
@@ -228,10 +223,28 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		effects_menu.add_command(label = "Apply Min Filter", command = self.effect_min_filter_layer)
 		effects_menu.add_command(label = "Apply Max Filter", command = self.effect_max_filter_layer)
 		effects_menu.add_command(label = "Apply Mode Filter", command = self.effect_mode_filter_layer)
-
 		self.effects_options_menu_button = Label(self.tool_bar, image = self.effects_wand_symbol, font = "bold")
 		self.effects_options_menu_button.pack(side = "left")
 		bind_popup("<Button-1>", self.effects_options_menu_button, effects_menu)
+
+		copy_options_menu = Menu(self, tearoff=0)
+		copy_options_menu.add_command(label = "Copy Current Layer to Clipboard", command = self.copy_selected_layer_to_clipboard)
+		copy_options_menu.add_command(label = "Copy Current Frame to Clipboard", command = self.copy_selected_frame_to_clipboard)
+		copy_options_menu.add_command(label = "Copy Selection to Clipboard", command = self.copy_selection_to_clipboard)
+		copy_options_menu.add_separator()
+		copy_options_menu.add_command(label = "Paste As New Layer in Current Frame", command = self.paste_as_new_layer_in_current_frame)
+		copy_options_menu.add_command(label = "Paste As New Layer in New Frame", command = self.paste_as_new_layer_in_new_frame)
+		copy_options_button = Label(self.tool_bar, image = self.copy_options_symbol, font = "bold")
+		copy_options_button.pack(side = "left")
+		bind_popup("<Button-1>", copy_options_button, copy_options_menu)
+
+		undo_button =  Label(self.tool_bar, image = self.undo_symbol)
+		undo_button.pack(side = "left")
+		undo_button.bind("<Button-1>", self.undo)
+
+		redo_button =  Label(self.tool_bar, image = self.redo_symbol)
+		redo_button.pack(side = "left")
+		redo_button.bind("<Button-1>", self.redo)
 
 		self.canvas_frame = ttk.LabelFrame(self.right_side_frame, text = "")
 		self.canvas_frame.pack(fill = "both", expand = True, anchor = "n", padx = 3)
@@ -252,15 +265,24 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		self.grip.bind("<B1-Motion>", self.on_resize)
 		self.grip.bind("<ButtonRelease-1>", self.on_release)
 
-		self.canvas.bind_right(self.erase)
 		self.canvas.bind_middle(self.eyedrop)
-		self.canvas.bind_right_drag(self.erase)
-		self.canvas.after_idle(self.refresh)
 		self.canvas.bind_movement(self.on_mouse_move)
-
 		self.canvas.canvas.bind("<ButtonPress-1>", self.on_canvas_click)
 		self.canvas.canvas.bind("<B1-Motion>", self.on_canvas_drag)
 		self.canvas.canvas.bind("<ButtonRelease-1>", self.on_canvas_release)
+		self.canvas.canvas.bind("<ButtonPress-3>", self.on_erase_start)
+		self.canvas.bind_right_drag(self.on_erase)
+		self.canvas.canvas.bind("<ButtonRelease-3>", self.on_erase_end)
+
+		self.canvas.after_idle(self.refresh)
+
+	def undo(self, event = None):
+		self.project.selected_frame.selected_layer.undo()
+		self.refresh()
+
+	def redo(self, event = None):
+		self.project.selected_frame.selected_layer.redo()
+		self.refresh()
 
 	def load_folder_as_frames(self):
 		path = filedialog.askdirectory()
@@ -308,7 +330,7 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		self.canvas.redraw()
 		self.frame_manager.refresh()
 		self.canvas_frame.configure(text = f"{self.project.selected_frame.id} - {self.project.selected_frame.selected_layer.id}")
-		self.controller.ClipboardWindow.refresh()
+		self.controller.PalletWindow.refresh()
 
 	def draw_canvas_draw_path(self, x1, y1, x2, y2):
 		for r in self.drawtips_references: self.canvas.canvas.delete(r)
@@ -348,10 +370,22 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 				for r in self.drawtips_references:
 					self.canvas.canvas.delete(r)
 
-	def erase(self, event):
+	def on_erase_start(self, event):
+		id = self.canvas.get_cell_id(event.x, event.y)
+		if id:
+			ToolController.handle_erase_start(self.project.selected_frame.selected_layer, id)
+			self.refresh()
+
+	def on_erase(self, event):
 		id = self.canvas.get_cell_id(event.x, event.y)
 		if id:
 			ToolController.handle_erase(self.project.selected_frame.selected_layer, id)
+			self.refresh()
+
+	def on_erase_end(self, event):
+		id = self.canvas.get_cell_id(event.x, event.y)
+		if id:
+			ToolController.handle_erase_end(self.project.selected_frame.selected_layer, id)
 			self.refresh()
 
 	def eyedrop(self, event):
@@ -406,16 +440,16 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		self.project.selected_frame.select_layer(0)
 		self.refresh()
 	def flip_vertical(self):
-		self.canvas.flip_vertical()
+		ToolController.flip_layer_vertical(self.project.selected_frame.selected_layer)
 		self.refresh()
 	def flip_horizontal(self):
-		self.canvas.flip_horizontal()
+		ToolController.flip_layer_horizontal(self.project.selected_frame.selected_layer)
 		self.refresh()
 	def rotate_left(self):
-		self.canvas.rotate_left()
+		ToolController.rotate_layer_left(self.project.selected_frame.selected_layer)
 		self.refresh()
 	def rotate_right(self):
-		self.canvas.rotate_right()
+		ToolController.rotate_layer_right(self.project.selected_frame.selected_layer)
 		self.refresh()
 	def to_grayscale(self):
 		self.canvas.to_grayscale()
@@ -531,8 +565,6 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		ToolController.effect_mode_filter_selection(self.project.selected_frame.selected_layer, size)
 		self.refresh()
 
-
-
 	def fill_selection(self):
 		layer = self.project.selected_frame.selected_layer
 		if layer.start_selection and layer.end_selection:
@@ -574,6 +606,24 @@ class ProjectWindow(BaseWindow): #A loaded canvas window
 		if layer.start_selection and layer.end_selection:
 			image = ToolController.copy_selection_to_clipboard(layer)
 			self.refresh()
+
+	def copy_selected_layer_to_clipboard(self):
+		ToolController.copy_layer_to_clipboard(self.project.selected_frame.selected_layer)
+		self.refresh()
+	def copy_selected_frame_to_clipboard(self):
+		ToolController.copy_frame_to_clipboard(self.project.selected_frame)
+		self.refresh()
+
+	def paste_as_new_layer_in_current_frame(self):
+		l = self.project.selected_frame.new_layer()
+		ToolController.paste(l, "0x0")
+		self.refresh()
+
+	def paste_as_new_layer_in_new_frame(self):
+		f = self.project.new_frame()
+		l = f.new_layer()
+		ToolController.paste(l, "0x0")
+		self.refresh()
 
 	def inspect_layer(self): ImageViewer(self.controller, self.project.selected_frame.selected_layer.export_image())
 	def inspect_frame(self): ImageViewer(self.controller, self.project.selected_frame.export_composite_image())

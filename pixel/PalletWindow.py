@@ -11,6 +11,7 @@ from .pixel import PixelProject
 from .LyfeCanvas import LyfeCanvas
 from .HelpWindow import HelpWindow
 from .StartWindow import StartWindow
+from .ClipBoard import ClipBoardBox
 
 DRAW = "draw"
 EYEDROPPER = "eyedropper"
@@ -68,48 +69,69 @@ class PalletWindow(ttk.Frame):
 		
 		canvas_frame = Frame(panes)
 		canvas_frame.pack(fill = "both", expand = True, side = "top", anchor = "n")
-		canvas_frame.configure(height = 150, width = 150)
 		panes.add(canvas_frame)
-		self.canvas = LyfeCanvas(self.project, canvas_frame)
-		force_aspect(self.canvas, canvas_frame, 1.0)
+		panes.paneconfigure(canvas_frame, height = 150)
+		self.pallet_box = LyfeCanvas(self.project, canvas_frame)
+		force_aspect(self.pallet_box, canvas_frame, 1.0)
 		colors = get_gradient(8)
 		colors.extend(get_rainbow(56))
-		for id in self.canvas.itterate_canvas(): self.pallet.set_pixel_color(id, hex_to_rgba(colors.pop()))
-		self.canvas.bind_left(self.select_color)
-		self.canvas.bind_double_left(self.change_color)
-		self.canvas.bind("<Configure>", self.on_configure)
-		self.canvas.configure()
+		for id in self.pallet_box.itterate_canvas(): self.pallet.set_pixel_color(id, hex_to_rgba(colors.pop()))
+		self.pallet_box.bind_left(self.select_color)
+		self.pallet_box.bind_double_left(self.change_color)
+		self.pallet_box.bind("<Configure>", self.on_configure)
+		self.pallet_box.configure()
 	
 		outer_frame = Frame(panes)
-		outer_frame.pack(fill = "x", expand = True, padx = 4)
+		outer_frame.pack(fill = "both", expand = True, padx = 4)
 		panes.add(outer_frame)
+		panes.paneconfigure(outer_frame, height = 250)
 		
 		color_label_frame = Frame(outer_frame)
 		self.color_label_text_var = StringVar()
 		self.color_label_text_var.set(ToolController.get_color())
 		color_label = Label(color_label_frame, textvariable = self.color_label_text_var)
 		color_label.pack(side = "bottom", fill = "x", expand = True)
-		color_label_frame.pack(fill = "x", expand = False)
+		color_label_frame.pack(fill = "x", expand = True)
 
 		self.alpha_scale = Scale(outer_frame, orient = "horizontal", from_ = 0, to = 255, command = self.set_alpha)
 		self.alpha_scale.set(self.alpha)
-		self.alpha_scale.pack(fill = "both", expand = False, pady = 2)
+		self.alpha_scale.pack(fill = "x", expand = True, pady = 2)
 		
 		div_1 = ttk.Separator(outer_frame)
-		div_1.pack(fill = "x", expand = False, pady = 2)
+		div_1.pack(fill = "x", expand = True, pady = 2)
 
 		self.toolbox = ToolBox(outer_frame)
 		self.toolbox.pack(fill = "both", expand = True, pady = 2)
-
+		
 		self.grip = ttk.Sizegrip(self)
 		self.grip.place(relx=1.0, rely=1.0, anchor="se")
 		self.grip.bind("<ButtonPress-1>", self.on_press)
 		self.grip.bind("<B1-Motion>", self.on_resize)
 		self.grip.bind("<ButtonRelease-1>", self.on_release)
 
+		self.clipboard_box = ClipBoardBox(self.controller, panes)
+		self.clipboard_box.pack(fill = "both", expand = True)
+		panes.add(self.clipboard_box)
+		
 		self.window.minsize(250, 400)
+		self.window.geometry(f"250x720")
+		self.pallet_box.after_idle(self.refresh)
 
-	def on_configure(self, event): self.canvas.redraw()
+		color = self.pallet.array[self.pallet.width - 1][self.pallet.height - 1]
+		ToolController.set_color(color)
+		self.alpha = color[3]
+		self.alpha_scale.set(self.alpha)
+		self.pallet.start_selection = id
+		self.pallet.end_selection = id
+		self.update()
+
+
+
+	def refresh(self):
+		self.clipboard_box.refresh()
+		self.pallet_box.redraw()
+
+	def on_configure(self, event): self.pallet_box.redraw()
 	def on_press(self, event): self.grip["cursor"] = "bottom_right_corner"
 
 	def on_resize(self, event):
@@ -117,33 +139,33 @@ class PalletWindow(ttk.Frame):
 		x_change = 1 if x_change < 1 else x_change
 		y_change = event.y_root - self.window.winfo_rooty()
 		y_change = 1 if y_change < 1 else y_change
-		# self.minsize(self.winfo_reqwidth(), self.winfo_reqheight())
 		self.window.geometry("%sx%s" % (x_change, y_change))
 
 	def on_release(self, event):
 		self.grip["cursor"] = "arrow"
-		self.canvas.redraw()
+		self.pallet_box.redraw()
 
 	def update(self):
 		self.color_label_text_var.set(ToolController.get_color())
-		self.canvas.redraw()
+		self.pallet_box.redraw()
 
 	def set_color(self, color):
 		self.color = color
 		self.color_label_text_var.set(color)
 
 	def select_color(self, event):
-		id = self.canvas.get_cell_id(event.x, event.y)
+		id = self.pallet_box.get_cell_id(event.x, event.y)
 		if id:
 			x, y  = (int(v) for v in id.split("x"))
 			ToolController.set_color(self.pallet.array[y][x])
 			self.alpha = self.pallet.array[y][x][3]
 			self.alpha_scale.set(self.alpha)
-			self.pallet.selection = [id]
+			self.pallet.start_selection = id
+			self.pallet.end_selection = id
 			self.update()
 
 	def change_color(self, event):
-		id = self.canvas.get_cell_id(event.x, event.y)
+		id = self.pallet_box.get_cell_id(event.x, event.y)
 		if not id: return
 		color = colorchooser.askcolor()[0]
 		if not color: return #If no color was selected
@@ -157,10 +179,10 @@ class PalletWindow(ttk.Frame):
 		self.update()
 
 	def set_color(self, color):
-		id = self.pallet.selection[0]
+		id = self.pallet.start_selection
 		ToolController.set_color(color)
 		self.alpha_scale.set(color[3])
-		self.pallet.load_image(ToolController.draw(self.pallet, id))
+		ToolController.draw(self.pallet, id)
 		self.update()
 
 	def set_alpha(self, alpha):

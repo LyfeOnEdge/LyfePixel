@@ -11,7 +11,7 @@ canvas_background_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x01\x90\
 class LyfeCanvas(Frame):
 	def __init__(self, project, *args, **kwargs):
 		Frame.__init__(self, *args, **kwargs)
-		self.configure(borderwidth = 1, background= "#bbbbbb")
+		self.configure(borderwidth = 0, background= "#bbbbbb")
 		self.project = project
 		self.first_draw = True
 		self.canvas = ResizableCanvas(self, background= "#FFFFFF")
@@ -83,9 +83,7 @@ class LyfeCanvas(Frame):
 		if layer.start_selection and layer.end_selection:
 			x0, y0 = (int(v) for v in layer.start_selection.split("x"))
 			x1, y1 = (int(v) for v in layer.end_selection.split("x"))
-			x0, x1 = min(x0, x1), max(x0, x1)
-			y0, y1 = min(y0, y1), max(y0, y1)
-			print(x0,y0,x1,y1)
+			x0, x1, y0, y1 = min(x0, x1), max(x0, x1), min(y0, y1), max(y0, y1)
 			for x in range(x0, x1 + 1):
 				for y in range(y0, y1 + 1):
 					self.draw_pixel(f"{x}x{y}")

@@ -214,7 +214,7 @@ class LayerManager(ttk.LabelFrame):
 	def place_tile(self, tile):
 		tn = ImageTk.PhotoImage(tile.get_thumbnail(tile.height - 8))
 		self.thumbnails.append(tn)
-		tile.references.append(self.canvas.create_image(tile.x + 4, tile.y + 4, anchor = "nw", image = tn))
+		tile.references.append(self.canvas.create_image(tile.x + 0.5 * tile.width, tile.y +  0.5 * tile.height, image = tn))
 		if type(tile) is FrameTile:
 			if tile.frame is self.project.selected_frame: tile.references.append(self.canvas.create_rectangle(tile.x, tile.y, tile.x + tile.width, tile.y + tile.height, outline="#000000", width = 3))
 			else: tile.references.append(self.canvas.create_rectangle(tile.x, tile.y, tile.x + tile.width, tile.y + tile.height, outline="#000000", width = 1))

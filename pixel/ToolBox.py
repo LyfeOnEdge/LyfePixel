@@ -4,7 +4,7 @@ import platform
 from .LabeledEntry import LabeledEntry
 from .colormath import hex_to_rgb
 from .file_management import load_tk_image_from_bytes_array
-from .ToolController import ToolController, TOOLCONST
+from .ToolController import ToolController, TOOLCONST, TOOLS
 from .ResizableCanvas import ResizableCanvas
 
 eyedropper_symbol_gray_bytes = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x19\x00\x00\x00\x19\x08\x06\x00\x00\x00\xc4\xe9\x85c\x00\x00\x00\x9fIDATx\x9c\xb5\xd2K\x0e\x800\x08\x04\xd0\xc1\x8b\x13N\xae\x1b1\x8a\xfd\xd10\xb3\xb3ixN\xa8\xa00\xaaz\xc633\x13a\x02\x9e\x83\rl#\xaaz\xfa\xe0\x19\xb0\x85\xac\x0c\x8dI\xedd\x07\x00\x8av2\xca\xf6\xebZmdf\x02\x10\x9b8\x00$w\x02\xcc[\xbc\x87{RM\xde@k\x98\xdf\x89?\xb2\x8cD \xf3\xd2\x96\x90\x11`f\x12[\xc5\xef)2\x03\xe2\xfd\xd6\xd9p\xf1Y\xa0\x97n\x93*\xa0\x8bT\x02M\xa4\x1a\xf8!\x0c\xe0\x83\xb0\x80\x07a\x02\x0f\xc2\x04\x00\xe0\xf0\xa1,\x00\xb8\x9b0\x01\x00\xa0\x0e\xf7\\\x1a\xdd\x93\xa0\x10\x9c\x9a\xcf\x00\x00\x00\x00IEND\xaeB`\x82'
@@ -73,10 +73,11 @@ class fill_frame(Frame):
 		self.threshold_entry = LabeledEntry("Fill Threshold", 1)
 		self.threshold_entry.pack(side = "top", fill = "x", expand = True, padx = 4, pady = 4)
 
-class ToolBox(Frame):
+class ToolBox(ttk.Labelframe):
 	def __init__(self, *args, **kwargs):
-		Frame.__init__(self, *args, **kwargs)
+		ttk.Labelframe.__init__(self, *args, text = "Tools")
 		self.config(height = 200, width = 200)
+		self.bind("<MouseWheel>", self._on_mouse_wheel)
 		self.eyedropper_symbol = load_tk_image_from_bytes_array(eyedropper_symbol_gray_bytes)
 		self.pencil_symbol = load_tk_image_from_bytes_array(pencil_symbol_gray_bytes)
 		self.updownleftright = load_tk_image_from_bytes_array(updownleftright_symbol_gray_bytes)
@@ -113,51 +114,30 @@ class ToolBox(Frame):
 		self.thumbnails = []
 		self.tiles = []
 		self.canvas_height = 200
-
-		#make canvas and scroll bar
 		self.canvas = ResizableCanvas(self, relief="sunken")
-		self.canvas.config(
-			width = 200, #Parent frame width
-			height = 200,
-			highlightthickness=0)
+		self.canvas.config(width = 200, height = 200, highlightthickness=0)
+
 		self.scrollbar = Scrollbar(self)
+		self.scrollbar.config(command=self.on_scroll_bar)      
 
-		#Bind sidebar to canvas and
-		self.scrollbar.config(command=self.on_scroll_bar)           
 		self.canvas.config(yscrollcommand=self.scrollbar.set) 
-
-		#pack the sidebar and canvas
-		self.scrollbar.pack(side="right", fill="y")                     
+		self.scrollbar.pack(side="right", fill="y")
 		self.canvas.pack(side = "right", expand=True, fill="both")
-
-		#A frame to put in the canvas window
 		self.canvas_frame = Frame(self.canvas, border = 0, highlightthickness = 0)
 		self.canvas_frame.bind("<MouseWheel>", self._on_mouse_wheel)
-
-		#Creates a "window" and places the canvas in it
+		self.canvas_frame.config(width= 200, height = self.canvas_height)
 		self.canvas.create_window(0,0, window=self.canvas_frame, anchor='nw')
-
-		#Bind resize
-		# self.bind("<Configure>", self.on_configure)
-		self.bind("<MouseWheel>", self._on_mouse_wheel)
 		self.canvas.bind("<MouseWheel>", self._on_mouse_wheel)
-
-		self.canvas_frame.config(width= 200, height = 200)
 		self.canvas.config(scrollregion=(0,0, 200, self.canvas_height))
-
 		self.canvas.bind("<Enter>", self.mouse_enter)
 		self.canvas.bind("<Leave>", self.mouse_leave)
 		self.canvas.bind("<Motion>", self.on_mouse_move)
 		self.canvas.bind("<Button-1>", self.on_click)
 		self.canvas.bind("<Configure>", self.on_configure)
-		self.bind("<Configure>", self.on_configure)
 
-		if kwargs.get("controller"):
-			self.controller = kwargs.pop("controller")
-		else:
-			self.controller = ToolController
-
-		self.refresh()
+		if kwargs.get("controller"): self.controller = kwargs.pop("controller")
+		else: self.controller = ToolController
+		self.canvas.after_idle(self.refresh)
 
 	def on_configure(self, event = None):
 		self.refresh()
@@ -187,7 +167,6 @@ class ToolBox(Frame):
 			else: t.deactivate()
 
 	def refresh(self, event = None):
-		self.winfo_toplevel().update_idletasks()
 		self.canvas.delete("all")
 		self.thumbnails = []
 		self.tiles = []
@@ -223,12 +202,14 @@ class ToolBox(Frame):
 			if _x == _maxperrow:
 				_x = 0
 				_y += 1
-
-		_canvasheight = (_y + 1) * (y_spacing)
+		_y += 1
+		_canvasheight = _y * y_spacing + padding + (_y + 1) * (y_space_offset)
 		if _canvasheight < self.winfo_height():
 			_canvasheight = self.winfo_height()
 		self.canvas_frame.config(height = _canvasheight,width= _framewidth)
 		self.canvas.config(scrollregion=(0,0,_framewidth, _canvasheight))
+		tool = TOOLS[ToolController.tool]["text"]
+		self.configure(text = f"Tools - {tool}")
 		
 
 	def place_tile(self, tile):

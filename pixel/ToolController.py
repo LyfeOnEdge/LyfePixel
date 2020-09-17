@@ -59,7 +59,7 @@ TOOLS = {
 	},
 
 	DRAW_ROW : {
-		"text" : "Fill horizontal",
+		"text" : "Fill Horizontal",
 		"drag" : False,
 	},
 
@@ -117,11 +117,11 @@ class Controller:
 		self.clipboard = clipboard
 		self._color = None
 		self.start_dict = {
-			ERASE: self.erase,
-			DRAW : self.draw,
+			ERASE: self.start_erase,
+			DRAW : self.start_draw,
 			LINE : self.start_drag,
-			DRAW_ROW : self.draw_row,
-			DRAW_COLUMN : self.draw_column,
+			DRAW_ROW : self.start_draw_row,
+			DRAW_COLUMN : self.start_draw_column,
 			RECTANGLE : self.start_drag,
 			FILLED_RECTANGLE : self.start_drag,
 			BUCKET : self.flood_fill,
@@ -142,13 +142,17 @@ class Controller:
 			PASTE : self.paste
 		}
 		self.end_dict = {
-			LINE : self.end_line,
-			RECTANGLE : self.end_rectangle,
-			FILLED_RECTANGLE: self.end_filled_rectangle,
+			LINE : self.end_draw_line,
+			DRAW : self.end_draw,
+			DRAW_COLUMN : self.end_draw_column,
+			DRAW_ROW : self.end_draw_row,
+			RECTANGLE : self.end_draw_rectangle,
+			FILLED_RECTANGLE: self.end_draw_filled_rectangle,
 			SELECT_BOX : self.end_select_box,
 			MOVE_SELECTION : self.end_move_selection,
-			ELLIPSE : self.end_ellipse,
-			FILLED_ELLIPSE: self.end_filled_ellipse,
+			ELLIPSE : self.end_draw_ellipse,
+			FILLED_ELLIPSE: self.end_draw_filled_ellipse,
+			ERASE : self.end_erase
 		}
 		self.set_color((0,0,0,255))
 		self.start_id = None
@@ -167,18 +171,19 @@ class Controller:
 
 	def get_tool(self, tool): return self.tool
 
+	def start_draw(self, layer, id):
+		return self.draw(layer, id)
 	def draw(self, layer, id, radius = 1):
 		x, y = (int(v) for v in id.split("x"))
 		image = layer.export_image()
 		draw = ImageDraw.Draw(image)
 		draw.point((x, y), fill = tuple(self._color))
+		layer.load_image(image)
 		return image
+	def end_draw(self, layer, id):
+		layer.add_history()
 
 	def start_drag(self, layer, start_id): self.start_id = start_id
-
-	def end_line(self, layer, end_id):
-		self.end_id = end_id
-		return self.draw_line(layer, self.start_id, self.end_id)
 
 	def draw_line(self, layer, start_id, end_id, width = 1):
 		x0, y0 = (int(v) for v in start_id.split("x"))
@@ -186,38 +191,53 @@ class Controller:
 		image = layer.export_image()
 		draw = ImageDraw.Draw(image)
 		draw.line((x0, y0, x1, y1), width=width, fill = self._color)
-		return image
+		layer.load_image(image)
+		return True
+	def end_draw_line(self, layer, end_id):
+		self.end_id = end_id
+		res = self.draw_line(layer, self.start_id, self.end_id)
+		layer.add_history()
+		return res
 
+	def start_draw_row(self, layer, id):
+		return self.draw_row(layer, id)
 	def draw_row(self, layer, id, width = 1):
 		x, y = (int(v) for v in id.split("x"))
 		image = layer.export_image()
 		draw = ImageDraw.Draw(image)
 		draw.line((0, y, layer.width-1, y), width=width, fill = self._color)
-		return image
+		layer.load_image(image)
+		return True
+	def end_draw_row(self, layer, id):
+		layer.add_history()
 
+	def start_draw_column(self, layer, id):
+		return self.draw_column(layer, id)
 	def draw_column(self, layer, id, width = 1):
 		x, y = (int(v) for v in id.split("x"))
 		image = layer.export_image()
 		draw = ImageDraw.Draw(image)
 		draw.line((x, 0, x, layer.height - 1), width=width, fill = self._color)
-		return image
-
-	def end_rectangle(self, layer, end_id):
-		self.end_id = end_id
-		return self.draw_rectangle(layer, self.start_id, self.end_id)
-
-	def end_filled_rectangle(self, layer, end_id):
-		self.end_id = end_id
-		return self.draw_filled_rectangle(layer, self.start_id, self.end_id)
+		layer.load_image(image)
+		return True
+	def end_draw_column(self, layer, id):
+		layer.add_history()
 
 	def draw_rectangle(self, layer, start_id, end_id, fill = False, width = 1):
+		print("Drawion")
 		x0, y0 = (int(v) for v in start_id.split("x"))
 		x1, y1 = (int(v) for v in end_id.split("x"))
 		image = layer.export_image()
 		draw = ImageDraw.Draw(image)
 		fill = self._color if self._color else fill
 		draw.rectangle((x0, y0, x1, y1), outline = fill)
-		return image
+		layer.load_image(image)
+		return True
+	def end_draw_rectangle(self, layer, end_id):
+		self.end_id = end_id
+		res = self.draw_rectangle(layer, self.start_id, self.end_id)
+		layer.add_history()
+		return res
 
 	def draw_filled_rectangle(self, layer, start_id, end_id, fill = False, width = 1):
 		x0, y0 = (int(v) for v in start_id.split("x"))
@@ -226,12 +246,13 @@ class Controller:
 		draw = ImageDraw.Draw(image)
 		fill = self._color if self._color else fill
 		draw.rectangle((x0, y0, x1, y1), fill = fill)
-		return image
-
-	def end_select_box(self, layer, end_id):
-		self.end_selection = end_id
-		self.start_selection = self.start_id
-		return self.select_box(layer, self.start_selection, self.end_selection)
+		layer.load_image(image)
+		return True
+	def end_draw_filled_rectangle(self, layer, end_id):
+		self.end_id = end_id
+		res = self.draw_filled_rectangle(layer, self.start_id, self.end_id)
+		layer.add_history()
+		return res
 
 	def select_box(self, layer, start_id, end_id):
 		x0, y0 = (int(v) for v in start_id.split("x"))
@@ -240,11 +261,12 @@ class Controller:
 		y0, y1 = min(y0, y1), max(y0, y1)
 		layer.start_selection = f"{x0}x{y0}"
 		layer.end_selection = f"{x1}x{y1}"
-		return layer.image #send layers last exported image since no data has changed but canvas needs a rewrite
-
-	def end_ellipse(self, layer, end_id):
-		self.end_id = end_id
-		return self.draw_ellipse(layer, self.start_id, self.end_id)
+		layer.load_image(layer.image)
+		return True
+	def end_select_box(self, layer, end_id):
+		self.end_selection = end_id
+		self.start_selection = self.start_id
+		return self.select_box(layer, self.start_selection, self.end_selection)
 
 	def draw_ellipse(self, layer, start_id, end_id):
 		x0, y0 = (int(v) for v in start_id.split("x"))
@@ -253,11 +275,13 @@ class Controller:
 		draw = ImageDraw.Draw(image)
 		fill = self._color
 		draw.ellipse((min(x0, x1), min(y0, y1), min(max(x0, x1), layer.width - 1), min(max(y0, y1), layer.height - 1)), outline = fill)
-		return image
-
-	def end_filled_ellipse(self, layer, end_id):
+		layer.load_image(image)
+		return True
+	def end_draw_ellipse(self, layer, end_id):
 		self.end_id = end_id
-		return self.draw_filled_ellipse(layer, self.start_id, self.end_id)
+		res = self.draw_ellipse(layer, self.start_id, self.end_id)
+		layer.add_history()
+		return res
 
 	def draw_filled_ellipse(self, layer, start_id, end_id):
 		x0, y0 = (int(v) for v in start_id.split("x"))
@@ -266,21 +290,36 @@ class Controller:
 		draw = ImageDraw.Draw(image)
 		fill = self._color
 		draw.ellipse((min(x0, x1), min(y0, y1), min(max(x0, x1), layer.width - 1), min(max(y0, y1), layer.height - 1)), fill = fill)
-		return image
+		layer.load_image(image)
+		return True
+	def end_draw_filled_ellipse(self, layer, end_id):
+		self.end_id = end_id
+		res = self.draw_filled_ellipse(layer, self.start_id, self.end_id)
+		layer.add_history()
+		return res
 
 	def flood_fill(self, layer, id, thresh = 0):
 		x, y = (int(v) for v in id.split("x"))
 		image = layer.export_image()
 		ImageDraw.Draw(image)
 		ImageDraw.floodfill(image, xy = (x, y), value = self._color, thresh = thresh)
-		return image
+		layer.load_image(image)
+		layer.add_history()
+		return True
 
+	def start_erase(self, layer, id):
+		return self.erase(layer, id)
 	def erase(self, layer, id):
 		x, y = (int(v) for v in id.split("x"))
 		image = layer.export_image()
 		draw = ImageDraw.Draw(image)
 		draw.point((x, y), fill = (0,0,0,0))
-		return image
+		layer.load_image(image)
+		return True
+	def end_erase(self, layer, id):
+		res = self.erase(layer,id)
+		layer.add_history()
+		return res
 
 	def eyedropper(self, layer, id):
 		x,y = (int(v) for v in id.split("x"))
@@ -291,27 +330,17 @@ class Controller:
 #Allows one function to be used for input rather than an outside tool calling functions individually
 
 	def handle_start(self, layer, *args, **kwargs): #Returns true if canvas should redraw
-		if self.start_dict.get(self.tool):
-			image = self.start_dict[self.tool](layer, *args, **kwargs)
-			if image:
-				layer.load_image(image)
-				return True
+		if self.start_dict.get(self.tool): return self.start_dict[self.tool](layer, *args, **kwargs)
 
 	def handle_drag(self, layer, *args, **kwargs):  #Returns true if canvas should redraw
-		if self.drag_dict.get(self.tool):
-			image = self.drag_dict[self.tool](layer, *args, **kwargs)
-			if image:
-				layer.load_image(image)
-				return True
+		if self.drag_dict.get(self.tool): return self.drag_dict[self.tool](layer, *args, **kwargs)
 
 	def handle_end(self, layer, *args, **kwargs):  #Returns true if canvas should redraw
-		if self.end_dict.get(self.tool):
-			image = self.end_dict[self.tool](layer, *args, **kwargs)
-			if image:
-				layer.load_image(image)
-				return True
+		if self.end_dict.get(self.tool): return self.end_dict[self.tool](layer, *args, **kwargs)
 
 #-----------------------------------------------
+	def handle_erase_start(self, layer, id):
+		self.handle_erase(layer, id)
 
 	def handle_erase(self, layer, id):
 		x, y = (int(v) for v in id.split("x"))
@@ -319,6 +348,10 @@ class Controller:
 		draw = ImageDraw.Draw(image)
 		draw.point((x, y), fill = (0,0,0,0))
 		layer.load_image(image)
+
+	def handle_erase_end(self, layer, id):
+		self.handle_erase(layer, id)
+		layer.add_history()
 
 	def rotate_selection_right(self, layer, start_id, end_id):
 		image = layer.export_image()
@@ -329,6 +362,7 @@ class Controller:
 		crop = crop.rotate(-90).resize(size, Image.BOX)
 		image.paste(crop, (min(x0, x1), min(y0, y1)))
 		layer.load_image(image)
+		layer.add_history()
 
 	def rotate_selection_left(self, layer, start_id, end_id):
 		image = layer.export_image()
@@ -339,6 +373,7 @@ class Controller:
 		crop = crop.rotate(90).resize(size, Image.BOX)
 		image.paste(crop, (min(x0, x1), min(y0, y1)))
 		layer.load_image(image)
+		layer.add_history()
 
 	def flip_selection_vertical(self, layer, start_id, end_id):
 		image = layer.export_image()
@@ -348,6 +383,7 @@ class Controller:
 		crop = ImageOps.flip(crop)
 		image.paste(crop, (min(x0, x1), min(y0, y1)))
 		layer.load_image(image)
+		layer.add_history()
 
 	def flip_selection_horizontal(self, layer, start_id, end_id):
 		image = layer.export_image()
@@ -357,6 +393,7 @@ class Controller:
 		crop = ImageOps.mirror(crop)
 		image.paste(crop, (min(x0, x1), min(y0, y1)))
 		layer.load_image(image)
+		layer.add_history()
 
 	def fill_selection(self, layer, start_id, end_id):
 		image = layer.export_image()
@@ -367,6 +404,7 @@ class Controller:
 		draw.rectangle((0, 0, crop.size[0], crop.size[1]), fill = self._color)
 		image.paste(crop, (min(x0, x1), min(y0, y1)))
 		layer.load_image(image)
+		layer.add_history()
 
 	def crop_to_selection(self, layer, start_id, end_id):
 		image = layer.export_image()
@@ -384,16 +422,19 @@ class Controller:
 		image = Image.new("RGBA",(layer.width, layer.height), (0,0,0,0)) #New background for layer
 		crop = self.crop_to_selection(layer, start_id, end_id)
 		image.paste(crop, (min(x0, x1), min(y0, y1)), crop)
-		return image
+		layer.load_image(image)
+		layer.add_history()
+		return True
 
 	def end_move_selection(self, layer, end_id):
 		self.end_id = end_id
 		return self.move_selection(layer, self.start_id, self.end_id)
 
 	def move_selection(self, layer, start_move_id, end_move_id):
+		print(f"start move {layer.start_selection}, {layer.end_selection}")
 		image = layer.export_image()
-		x0, y0 = (int(v) for v in start_move_id.split("x"))
-		x1, y1 = (int(v) for v in end_move_id.split("x"))
+		x0, y0 = (int(v) for v in layer.start_selection.split("x"))
+		x1, y1 = (int(v) for v in layer.end_selection.split("x"))
 		x0, x1 = min(x0, x1), max(x0, x1)
 		y0, y1 = min(y0, y1), max(y0, y1)
 		selection_width = x1 - x0
@@ -417,26 +458,11 @@ class Controller:
 		if new_selection_end_y > layer.height - 1: new_selection_end_y = layer.height - 1
 		layer.start_selection = f"{new_selection_start_x}x{new_selection_start_y}"
 		layer.end_selection = f"{new_selection_end_x}x{new_selection_end_y}"
+		print(f"end move {layer.start_selection}, {layer.end_selection}")
 		self.select_box(layer, layer.start_selection, layer.end_selection)
-		return image
-
-	def copy_selection_to_clipboard(self, layer):
-		crop = self.crop_to_selection(layer, layer.start_selection, layer.end_selection).convert("RGBA")
-		self.clipboard.copy_item(crop)
-
-	def cut_selection_to_clipboard(self, layer):
-		crop = self.crop_to_selection(layer, layer.start_selection, layer.end_selection).convert("RGBA")
-		self.clipboard.copy_item(crop)
-		image = layer.image
-		x0, y0 = (int(v) for v in layer.start_selection.split("x"))
-		x1, y1 = (int(v) for v in layer.end_selection.split("x"))
-		x0, x1 = min(x0, x1), max(x0, x1)
-		y0, y1 = min(y0, y1), max(y0, y1)
-		selection_width = x1 - x0
-		selection_height = y1 - y0
-		empty_cover = Image.new("RGBA",(selection_width + 1, selection_height + 1), (0,0,0,0))
-		image.paste(empty_cover, (x0, y0, x1 + 1, y1 + 1))
 		layer.load_image(image)
+		layer.add_history()
+		return True
 
 	def paste(self, layer, id):
 		image = layer.export_image()
@@ -444,7 +470,8 @@ class Controller:
 		pasteimage = self.clipboard.selected_layer.export_image()
 		image.paste(pasteimage, (x, y), pasteimage)
 		layer.load_image(image)
-		return image
+		layer.add_history()
+		return True
 
 	def apply_effect_selection(self, layer, effect):
 		image = layer.export_image()
@@ -454,6 +481,8 @@ class Controller:
 		crop = crop.filter(effect)
 		image.paste(crop, (min(x0, x1), min(y0, y1)))
 		layer.load_image(image)
+		layer.add_history()
+		return True
 
 	def effect_blur_selection(self, layer): self.apply_effect_selection(layer, ImageFilter.BLUR)
 	def effect_contour_selection(self, layer): self.apply_effect_selection(layer, ImageFilter.CONTOUR)
@@ -476,6 +505,20 @@ class Controller:
 		image = layer.export_image()
 		image = image.filter(effect)
 		layer.load_image(image)
+		layer.add_history()
+
+	def rotate_layer_left(self, layer):
+		layer.load_image(layer.export_image().rotate(90).resize((layer.width, layer.height), Image.BOX))
+		layer.add_history()
+	def rotate_layer_right(self, layer):
+		layer.load_image(layer.export_image().rotate(-90).resize((layer.width, layer.height), Image.BOX))
+		layer.add_history()
+	def flip_layer_vertical(self, layer):
+		layer.load_image(ImageOps.flip(layer.export_image()))
+		layer.add_history()
+	def flip_layer_horizontal(self, layer):
+		layer.load_image(ImageOps.mirror(layer.export_image()))
+		layer.add_history()
 
 	def effect_blur_layer(self, layer):	self.apply_effect(layer, ImageFilter.BLUR)
 	def effect_contour_layer(self, layer): self.apply_effect(layer, ImageFilter.CONTOUR)
@@ -493,6 +536,28 @@ class Controller:
 	def effect_min_filter_layer(self, layer, size=3): self.apply_effect(layer, ImageFilter.MinFilter(size=size))
 	def effect_max_filter_layer(self, layer, size=3): self.apply_effect(layer, ImageFilter.MaxFilter(size=size))
 	def effect_mode_filter_layer(self, layer, size=3): self.apply_effect(layer, ImageFilter.ModeFilter(size=size))
+	
+	def copy_layer_to_clipboard(self, layer): self.clipboard.copy_item(layer.image.copy(), f"Copy of layer {layer.id}")
+	def copy_frame_to_clipboard(self, frame): self.clipboard.copy_item(frame.export_composite_image(), f"Copy of frame {frame.id}")
+	def copy_selection_to_clipboard(self, layer):
+		crop = self.crop_to_selection(layer, layer.start_selection, layer.end_selection).convert("RGBA")
+		self.clipboard.copy_item(crop, f"Crop from {layer.id} - {layer.start_selection} to {layer.end_selection}")
+	def cut_selection_to_clipboard(self, layer):
+		crop = self.crop_to_selection(layer, layer.start_selection, layer.end_selection).convert("RGBA")
+		self.clipboard.copy_item(crop, f"Crop from {layer.id} - {layer.start_selection} to {layer.end_selection}")
+		image = layer.image
+		x0, y0 = (int(v) for v in layer.start_selection.split("x"))
+		x1, y1 = (int(v) for v in layer.end_selection.split("x"))
+		x0, x1 = min(x0, x1), max(x0, x1)
+		y0, y1 = min(y0, y1), max(y0, y1)
+		selection_width = x1 - x0
+		selection_height = y1 - y0
+		empty_cover = Image.new("RGBA",(selection_width + 1, selection_height + 1), (0,0,0,0))
+		image.paste(empty_cover, (x0, y0, x1 + 1, y1 + 1))
+		layer.load_image(image)
+		layer.add_history()
+
+
 
 
 	# def effect_unsharp_mask_layer(self, layer, radius=2, percent=150, threshold=3):
